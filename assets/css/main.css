@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+body {
+    padding: 32px;
+    font-size: 17px;
+}
+
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    margin: 1em auto;
+}
+
