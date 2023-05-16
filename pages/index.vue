@@ -2,18 +2,12 @@
     <main>
         <h1>GRUSP</h1>
         <multiselect
-            v-model="search"
-            :close-on-select="false"
-            group-values="values"
-            group-label="label"
-            :group-select="true"
-            :multiple="true"
-            :options="options"
-            :show-labels="false"
-            placeholder="Selecionar opção">
+            v-bind="params"
+            v-model="selected_tags"
+            >
         </multiselect>
 
-        <div class="grupo" v-for="grupo,i in grupos" :key="i">
+        <div class="grupo" v-for="grupo,i in filteredGrupos" :key="i">
             <h3 class="grupo-title">
                 {{ grupo.titulo }}
             </h3>
@@ -21,7 +15,9 @@
                 {{ grupo.descricao }}
             </p>
             <div class="grupo-tags">
-                <button class="grupo-tag" v-for="tag,i in grupo.tags" :key="i">
+                <button v-for="tag,i in grupo.tags" :key="i"
+                    class="grupo-tag"
+                    @click="tagAdd(tag)">
                     {{ tag }}
                 </button>
             </div>
@@ -32,26 +28,57 @@
 <script>
 export default {
     async asyncData({ $axios }) {
-        const grupos = (await $axios.get('http://localhost:8000/api/public/grupos')).data;
-        const tags = (await $axios.get('http://localhost:8000/api/public/tags')).data;
+        // fetch async data before sending the page to the client
+        const grupos = (await $axios.get('http://localhost:8000/api/public/grupos')).data
+        const tags = (await $axios.get('http://localhost:8000/api/public/tags')).data
 
         // options for vue-multiselect component
-        const options = [];
-        for (let category in tags)
-        {
-            options.push({
-                'label': category,
-                'values': tags[category]
-            });
+        const options = []
+        for (let t in tags)
+            options.push({ 'label': t, 'values': tags[t] })
+
+        // parameters for vue-multiselect component
+        const params = {
+            'close-on-select': false,
+            'group-label': 'label',
+            'group-select': true,
+            'group-values': 'values',
+            'multiple': true,
+            'options': options,
+            'placeholder': 'selecionar opção',
+            'show-labels': false,
         }
 
+        // the internal component data
         const data = {
-            search: "",
-            options,
+            params: params,
+            selected_tags: [],
             grupos,
             tags,
-        };
-        return data;
+        }
+
+        return data
+    },
+
+    computed: {
+        filteredGrupos() {
+            let selected = this.selected_tags
+            let grupos = this.grupos
+
+            // if no tag was selected, return all grupos
+            if (selected.length == 0)
+                return grupos
+
+            // return the grupos such that the grupo has at least one tag that was selected
+            return grupos.filter(g => g.tags.some(t => selected.includes(t)));
+        }
+    },
+
+    methods: {
+        tagAdd(tag) {
+            if (! this.selected_tags.includes(tag))
+                this.selected_tags.push(tag)
+        }
     }
 }
 </script>
