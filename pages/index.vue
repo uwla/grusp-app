@@ -1,6 +1,18 @@
 <template>
     <main>
         <h1>GRUSP</h1>
+        <multiselect
+            v-model="search"
+            :close-on-select="false"
+            group-values="values"
+            group-label="label"
+            :group-select="true"
+            :multiple="true"
+            :options="options"
+            :show-labels="false"
+            placeholder="Selecionar opção">
+        </multiselect>
+
         <div class="grupo" v-for="grupo,i in grupos" :key="i">
             <h3 class="grupo-title">
                 {{ grupo.titulo }}
@@ -20,14 +32,31 @@
 <script>
 export default {
     async asyncData({ $axios }) {
-        const response = await $axios.get('http://localhost:8000/api/public/grupos')
+        const grupos = (await $axios.get('http://localhost:8000/api/public/grupos')).data;
+        const tags = (await $axios.get('http://localhost:8000/api/public/tags')).data;
+
+        // options for vue-multiselect component
+        const options = [];
+        for (let category in tags)
+        {
+            options.push({
+                'label': category,
+                'values': tags[category]
+            });
+        }
+
         const data = {
-            grupos: response.data
+            search: "",
+            options,
+            grupos,
+            tags,
         };
         return data;
     }
 }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style>
 .grupo {
