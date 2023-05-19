@@ -1,6 +1,25 @@
 <template>
     <main>
         <h1>REGISTRAR CONTA</h1>
+
+        <div class="alert success" v-if="showSuccess">
+            <button class="dismiss" aria-label="Close" @click="hideSuccess()">
+                <span aria-hidden="true">×</span>
+            </button>
+            Conta criada com sucesso!
+        </div>
+
+        <div class="alert errors" v-if="showErrors">
+            <button class="dismiss" aria-label="Close" @click="hideErrors()">
+                <span aria-hidden="true">×</span>
+            </button>
+            <ul>
+                <li v-for="error,i in errors" :key="i">
+                    {{ error }}
+                </li>
+            </ul>
+        </div>
+
         <form id="register-form" @submit.prevent="register()">
             <div class="form-field">
                 <label for="name">Nome</label>
@@ -26,46 +45,97 @@ export default {
             password: "",
             email: "",
             name: "",
-            token: "",
+            errors: [],
+            showErrors: false,
+            showSuccess: false,
         }
         return data
     },
 
-    async mounted() {
-        const axios = this.$axios
-        const url = "http://localhost:8000/sanctum/csrf-cookie"
-        axios.get(url).then(res => console.log(res))
-    },
-
     methods: {
-        async register() {
-            const config = {
-                headers:{
-                    "Accept": "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
-                    "Content-Type": "multipart/form-data"
-                }
-            };
+
+        /**
+         * Register new user.
+         */
+        register() {
             const axios = this.$axios
-            const url = "http://localhost:8000/api/register"
             const data = {
                 password: this.password,
                 email: this.email,
                 name: this.name,
             }
-            await axios.post(url, data, config)
-                .catch(err => console.log(err))
-                .then(res => console.log(res))
+            const url = "http://localhost:8000/api/register"
+
+            this.hideSuccess()
+
+            axios.post(url, data)
+                .then(res => {
+                    console.log(res)
+                    this.hideErrors()
+                    this.showSuccessMsg()
+                    this.clearForm()
+                })
+                .catch(e => {
+                    // Caught an exception.
+                    // The error message are in data field within the response.
+                    let errors = e.response.data.errors
+                    this.handleErrors(errors)
+                })
+        },
+
+        /**
+         * Handle request errors
+         */
+        handleErrors(errors) {
+            this.errors = []
+            for (let field in errors)
+                for (let errorMessage of errors[field])
+                    this.errors.push(errorMessage)
+            this.showErrors = true
+            console.log("showing errors", errors)
+        },
+
+        /**
+         * Hide the errors from the user
+         */
+        hideErrors() {
+            this.showErrors = false
+        },
+
+        /**
+         * Hide the success message
+         */
+        hideSuccess() {
+            this.showSuccess = false
+        },
+
+        /**
+         * Show the success message
+         */
+        showSuccessMsg() {
+            this.showSuccess = true
+        },
+
+        /**
+         * Clear the form fields
+         */
+        clearForm() {
+            this.password = ""
+            this.email = ""
+            this.name = ""
         }
     }
 }
 </script>
 
 <style type="text/css">
-#register-form {
+#register-form, .alert {
     max-width: 500px;
-    display: block;
     margin: 0 auto;
+}
+
+#register-form {
+    display: block;
     border: 1px solid #ccc;
     border-radius: 6px;
     padding: 16px
@@ -73,9 +143,10 @@ export default {
 
 #register-form [type=submit] {
     display: block;
+    cursor: pointer;
     border-radius: 6px;
     background-color: #28a745;
-    border-color: #28a745;
+    border: none;
     color: #fff;
     width: 100%;
     padding: 8px;
@@ -112,5 +183,54 @@ export default {
     border-color: #80bdff;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    padding: 32px;
+}
+
+.errors {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.errors ul {
+    padding: 0;
+    margin: 0;
+    margin-left: 1em;
+}
+
+.errors button {
+    background: #c21c24;
+}
+
+.errors button:hover {
+    color: #f8d7da;
+}
+
+button.dismiss {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: inherit;
+    border: 0;
+    margin: 5px;
+    font-size: 1.5em;
+    border-radius: 5px;
+    line-height: 1;
+    -webkit-appearance: none;
+    cursor: pointer;
 }
 </style>
