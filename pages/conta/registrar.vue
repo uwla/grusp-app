@@ -2,23 +2,9 @@
     <main>
         <h1>REGISTRAR CONTA</h1>
 
-        <div class="alert success" v-if="showSuccess">
-            <button class="dismiss" aria-label="Close" @click="hideSuccess()">
-                <span aria-hidden="true">×</span>
-            </button>
-            Conta criada com sucesso!
-        </div>
+        <message-success v-show="showSuccess" :message="message" @hide="hideSuccess()" />
 
-        <div class="alert errors" v-if="showErrors">
-            <button class="dismiss" aria-label="Close" @click="hideErrors()">
-                <span aria-hidden="true">×</span>
-            </button>
-            <ul>
-                <li v-for="error,i in errors" :key="i">
-                    {{ error }}
-                </li>
-            </ul>
-        </div>
+        <message-errors v-show="showErrors" :errors="errors" @hide="hideErrors()" />
 
         <form id="register-form" @submit.prevent="register()">
             <div class="form-field">
@@ -48,6 +34,7 @@ export default {
             errors: [],
             showErrors: false,
             showSuccess: false,
+            message: "Conta criada com sucesso!"
         }
         return data
     },
