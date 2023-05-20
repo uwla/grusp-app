@@ -2,8 +2,6 @@
     <main class="w400">
         <h1>ENTRAR</h1>
 
-        <message-success v-if="loggedIn" :message="message" />
-
         <message-errors v-if="showErrors" :errors="errors" @hide="hideErrors()" />
 
         <form class="form" @submit.prevent="login()">
@@ -22,6 +20,7 @@
 
 <script>
 export default {
+    middleware: 'guest',
     computed: {
         errors() {
             return this.$store.state.auth.errors
@@ -73,7 +72,11 @@ export default {
             dispatch('auth/login', loginData)
                 .then(() => {
                     this.formBusy = false
-                    if (this.loggedIn) dispatch('auth/fetchProfile')
+                    if (this.loggedIn)
+                    {
+                        dispatch('auth/fetchProfile')
+                        this.$router.push('/conta')
+                    }
                 })
         },
 
