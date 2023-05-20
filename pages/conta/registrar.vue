@@ -2,9 +2,9 @@
     <main class="w500">
         <h1>REGISTRAR CONTA</h1>
 
-        <message-success v-show="showSuccess" :message="message" @hide="hideSuccess()" />
+        <message-success v-if="showSuccess" :message="message" @hide="hideSuccess()" />
 
-        <message-errors v-show="showErrors" :errors="errors" @hide="hideErrors()" />
+        <message-errors v-if="showErrors" :errors="errors" @hide="hideErrors()" />
 
         <form class="form" @submit.prevent="register()">
             <div class="form-field">
@@ -34,7 +34,8 @@ export default {
             errors: [],
             showErrors: false,
             showSuccess: false,
-            message: "Conta criada com sucesso!"
+            message: "Conta criada com sucesso!",
+            formBusy: false,
         }
         return data
     },
@@ -45,6 +46,8 @@ export default {
          * Register new user.
          */
         register() {
+            if (this.formBusy) return
+
             const axios = this.$axios
             const data = {
                 password: this.password,
@@ -53,11 +56,16 @@ export default {
             }
             const url = "http://localhost:8000/api/register"
 
+            // clear messages
+            this.hideErrors()
             this.hideSuccess()
 
+            // mark it as busy to avoid sending multiple requests if user
+            // clicks the submit button several times in a row
+            this.formBusy = true
+
             axios.post(url, data)
-                .then(res => {
-                    console.log(res)
+                .then(() => {
                     this.hideErrors()
                     this.showSuccessMsg()
                     this.clearForm()
@@ -67,7 +75,10 @@ export default {
                     // The error message are in data field within the response.
                     let errors = e.response.data.errors
                     this.handleErrors(errors)
-                })
+                }).then(() => {
+                    // regardless of what happened, mark it as not busy
+                    this.formBusy = false
+                });
         },
 
         /**
