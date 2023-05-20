@@ -2,7 +2,7 @@
     <main class="w400">
         <h1>ENTRAR</h1>
 
-        <message-success v-if="showProfile" :message="message" />
+        <message-success v-if="loggedIn" :message="message" />
 
         <message-errors v-if="showErrors" :errors="errors" @hide="hideErrors()" />
 
@@ -22,59 +22,43 @@
 
 <script>
 export default {
+    computed: {
+        errors() {
+            return this.$store.state.auth.errors
+        },
+        showErrors() {
+            return this.errors.length > 0
+        },
+        loggedIn() {
+            return this.$store.state.auth.loggedIn
+        }
+    },
+
     data() {
         const data = {
             password: "",
             email: "",
             token: "",
-            profile: {
-                name: "",
-                email: "",
-            },
-            errors: [],
-            showErrors: false,
-            showProfile: false,
             formBusy: false,
-            message: ""
+            message: "You logged in"
         }
         return data
     },
 
     methods: {
-
-        fetchProfile() {
-            const axios = this.$axios
-            const token = this.token
-            const url = "http://localhost:8000/api/account/profile"
-            const config = {
-                headers: { Authorization: `Bearer ${token}` }
-            }
-            axios.get(url, config)
-                .then(res => {
-                    const { name, email } = res.data
-                    this.profile.name = name
-                    this.profile.email = email
-                    this.message = `Você está logado ${name} (${email}).`
-                    this.showProfile = true
-                })
-                .catch(e => {
-                    console.log(e.response)
-                });
+        /**
+         * Clear the form fields
+         */
+        clearForm() {
+            this.password = ""
+            this.email = ""
         },
 
         /**
-         * Register new user.
+         * Login
          */
         login() {
             if (this.formBusy) return
-
-            const axios = this.$axios
-            const data = {
-                password: this.password,
-                email: this.email,
-                name: this.name,
-            }
-            const url = "http://localhost:8000/api/login"
 
             // clear messages
             this.hideErrors()
@@ -83,50 +67,22 @@ export default {
             // clicks the submit button several times in a row
             this.formBusy = true
 
-            axios.post(url, data)
-                .then(res => {
-                    this.token = res.data
-                    this.fetchProfile()
-                    this.hideErrors()
-                    this.clearForm()
-                })
-                .catch(e => {
-                    // Caught an exception.
-                    // The error message are in data field within the response.
-                    let errors = e.response.data.errors
-                    this.handleErrors(errors)
-                }).then(() => {
-                    // regardless of what happened, mark it as not busy
+            // attempt login
+            const loginData = { password: this.password, email: this.email }
+            const dispatch = this.$store.dispatch
+            dispatch('auth/login', loginData)
+                .then(() => {
                     this.formBusy = false
-                });
-        },
-
-        /**
-         * Handle request errors
-         */
-        handleErrors(errors) {
-            this.errors = []
-            for (let field in errors)
-                for (let errorMessage of errors[field])
-                    this.errors.push(errorMessage)
-            this.showErrors = true
-            console.log("showing errors", errors)
+                    if (this.loggedIn) dispatch('auth/fetchProfile')
+                })
         },
 
         /**
          * Hide the errors from the user
          */
         hideErrors() {
-            this.showErrors = false
+            this.$store.commit('auth/clearErrors')
         },
-
-        /**
-         * Clear the form fields
-         */
-        clearForm() {
-            this.password = ""
-            this.email = ""
-        }
     }
 }
 </script>
