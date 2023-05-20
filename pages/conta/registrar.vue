@@ -1,5 +1,5 @@
 <template>
-    <main class="w500">
+    <main class="w400">
         <h1>REGISTRAR CONTA</h1>
 
         <message-success v-if="showSuccess" :message="message" @hide="hideSuccess()" />
