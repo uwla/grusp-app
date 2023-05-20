@@ -1,5 +1,5 @@
 <template>
-    <div class="alert errors">
+    <div class="alert alert-danger">
         <button class="dismiss" aria-label="Close" @click="hide()">
             <span aria-hidden="true">×</span>
         </button>
