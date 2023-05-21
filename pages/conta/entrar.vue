@@ -70,14 +70,7 @@ export default {
             const loginData = { password: this.password, email: this.email }
             const dispatch = this.$store.dispatch
             dispatch('auth/login', loginData)
-                .then(() => {
-                    this.formBusy = false
-                    if (this.loggedIn)
-                    {
-                        dispatch('auth/fetchProfile')
-                        this.$router.push('/conta')
-                    }
-                })
+                .then(() => this.formBusy = false)
         },
 
         /**

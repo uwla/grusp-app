@@ -2,8 +2,10 @@ export function state()
 {
     return {
         token: "",
-        user_name: "",
-        user_email: "",
+        user: {
+            name: "",
+            email: "",
+        },
         loggedIn: false,
         errors: [],
     }
@@ -16,10 +18,9 @@ export const mutations = {
     },
 
     // set the authenticated user profile data
-    setProfile(state, payload) {
-        state.user_name = payload.name
-        state.user_email = payload.email
-        console.log(payload)
+    setUser(state, payload) {
+        state.user.name = payload.name
+        state.user.email = payload.email
     },
 
     // set the authentication token
@@ -45,7 +46,10 @@ export const actions = {
         const config = { headers: { Authorization: `Bearer ${token}` } }
         const url = "http://localhost:8000/api/account/profile"
         axios.get(url, config)
-            .then(res => commit('setProfile', res.data))
+            .then(res => {
+                this.app.router.push('/conta/')
+                commit('setUser', res.data)
+            })
             .catch(e => console.log(e.response))
     },
 
@@ -53,8 +57,10 @@ export const actions = {
         const axios = this.$axios
         const url = "http://localhost:8000/api/login"
         axios.post(url, data)
-            .then(res => commit('setToken', res.data))
-            .then(()  => dispatch('fetchProfile'))
+            .then(res => {
+                commit('setToken', res.data)
+                dispatch('fetchProfile')
+            })
             .catch(e =>  commit('setErrors', e.response.data.errors))
     }
 }

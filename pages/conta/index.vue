@@ -1,7 +1,8 @@
 <template>
-    <main>
-        Bem-vindo {{ name }} <br/>
-        <p><b>Email</b>: {{ email }}</p>
+    <main class="w400">
+        <h1>Bem vindo</h1>
+        <b>Nome</b>: {{ name }} <br/>
+        <b>Email</b>: {{ email }} <br/>
     </main>
 </template>
 
@@ -10,10 +11,10 @@ export default {
     middleware: 'auth',
     computed: {
         name() {
-            return this.$store.state.auth.user_name
+            return this.$store.state.auth.user.name
         },
         email() {
-            return this.$store.state.auth.user_email
+            return this.$store.state.auth.user.email
         },
     }
 }
