@@ -4,7 +4,7 @@
         <b>Nome</b>: {{ name }} <br/>
         <b>Email</b>: {{ email }} <br/>
         <br/>
-        <button @click="logout()">LOGOUT</button>
+        <router-link to="/conta/sair">LOGOUT</router-link>
     </main>
 </template>
 
@@ -18,11 +18,6 @@ export default {
         email() {
             return this.$auth.user.email
         },
-    },
-    methods: {
-        logout() {
-            this.$auth.logout()
-        }
     },
 }
 </script>
