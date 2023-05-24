@@ -54,7 +54,7 @@ export default {
                 email: this.email,
                 name: this.name,
             }
-            const url = "http://localhost:8000/api/register"
+            const url = "http://localhost:8000/api/auth/register"
 
             // clear messages
             this.hideErrors()
@@ -90,7 +90,6 @@ export default {
                 for (let errorMessage of errors[field])
                     this.errors.push(errorMessage)
             this.showErrors = true
-            console.log("showing errors", errors)
         },
 
         /**
