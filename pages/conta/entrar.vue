@@ -2,7 +2,7 @@
     <main class="w400">
         <h1>ENTRAR</h1>
 
-        <message-errors v-if="showErrors" :errors="errors" @hide="hideErrors()" />
+        <message-errors v-if="showErrors" :errors="errors" @hide="hideErrors()"/>
 
         <form class="form" @submit.prevent="login()">
             <div class="form-field">
@@ -20,65 +20,58 @@
 
 <script>
 export default {
-    middleware: 'guest',
+    middleware: 'auth',
+    auth : 'guest',
+
     computed: {
-        errors() {
-            return this.$store.state.auth.errors
-        },
         showErrors() {
             return this.errors.length > 0
-        },
-        loggedIn() {
-            return this.$store.state.auth.loggedIn
         }
     },
 
     data() {
-        const data = {
+        return {
             password: "",
             email: "",
-            token: "",
             formBusy: false,
-            message: "You logged in"
+            errors: [],
         }
-        return data
     },
 
     methods: {
-        /**
-         * Clear the form fields
-         */
         clearForm() {
             this.password = ""
             this.email = ""
         },
 
-        /**
-         * Login
-         */
         login() {
             if (this.formBusy) return
-
-            // clear messages
-            this.hideErrors()
-
-            // mark it as busy to avoid sending multiple requests if user
-            // clicks the submit button several times in a row
             this.formBusy = true
-
-            // attempt login
-            const loginData = { password: this.password, email: this.email }
-            const dispatch = this.$store.dispatch
-            dispatch('auth/login', loginData)
-                .then(() => this.formBusy = false)
+            const { password, email } = this
+            const auth = this.$auth
+            auth.loginWith('laravelSanctum', {
+                    data: { password, email }
+                })
+                .then(response => {
+                    const { token, user } = response.data
+                    auth.strategy.token.set(`Bearer ${token}`)
+                    auth.setUser(user)
+                })
+                .catch(exception => {
+                    const response = exception.response
+                    const errorsObj = response.data.errors
+                    const errors = []
+                    for (let field in errorsObj)
+                        for (let errorMsg of errorsObj[field])
+                            errors.push(errorMsg)
+                    this.errors = errors
+                })
+                .finally(() => this.formBusy = false)
         },
 
-        /**
-         * Hide the errors from the user
-         */
         hideErrors() {
-            this.$store.commit('auth/clearErrors')
-        },
-    }
+            this.errors = []
+        }
+    },
 }
 </script>

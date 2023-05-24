@@ -24,7 +24,7 @@ export default {
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
-        '~/plugins/vue-multiselect.js'
+        { src: '~/plugins/vue-multiselect.js' },
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
@@ -36,10 +36,45 @@ export default {
 
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
-        '@nuxtjs/axios'
+        '@nuxtjs/axios',
+        '@nuxtjs/auth-next',
     ],
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
-    }
+    },
+
+    // MODULES
+    axios: {
+        credentials: true,
+    },
+
+    auth: {
+        strategies: {
+            laravelSanctum: {
+                provider: 'laravel/sanctum',
+                url: 'http://localhost:8000',
+                endpoints: {
+                    login:  { url: '/api/auth/login', method: 'post' },
+                    logout: { url: '/api/auth/logout', method: 'post' },
+                    user:   { url: '/api/account/profile', method: 'get' }
+                },
+                token: {
+                    property: false,
+                },
+                user: {
+                    property: false,
+                    autoFetch: false,
+                }
+            },
+        },
+        redirect: {
+                login: '/conta/entrar',
+                logout: '/conta/entrar',
+                home: '/conta/'
+        }
+    },
+
+    // telemetry
+    telemetry: false
 }
