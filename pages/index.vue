@@ -3,7 +3,7 @@
         <h1>GRUSP</h1>
         <multiselect
             v-bind="params"
-            v-model="selected_tags"
+            v-model="selectedTags"
             >
         </multiselect>
 
@@ -27,42 +27,22 @@
 
 <script>
 export default {
-    async asyncData({ $axios }) {
-        // fetch async data before sending the page to the client
-        const grupos = (await $axios.get('http://localhost:8000/api/public/grupos')).data
-        const tags = (await $axios.get('http://localhost:8000/api/public/tags')).data
-
-        // options for vue-multiselect component
-        const options = []
-        for (let t in tags)
-            options.push({ 'label': t, 'values': tags[t] })
-
-        // parameters for vue-multiselect component
-        const params = {
-            'close-on-select': false,
-            'group-label': 'label',
-            'group-select': true,
-            'group-values': 'values',
-            'multiple': true,
-            'options': options,
-            'placeholder': 'selecionar opção',
-            'show-labels': false,
+    async asyncData({ store }) {
+        await store.dispatch('grupo/fetchGrupos')
+        await store.dispatch('grupo/fetchTags')
+        return {
+            selectedTags: [],
         }
-
-        // the internal component data
-        const data = {
-            params: params,
-            selected_tags: [],
-            grupos,
-            tags,
-        }
-
-        return data
     },
-
     computed: {
+        params() {
+            return this.$store.getters['grupo/multiselectParams']
+        },
+        grupos() {
+            return this.$store.state.grupo.grupos
+        },
         filteredGrupos() {
-            let selected = this.selected_tags
+            let selected = this.selectedTags
             let grupos = this.grupos
 
             // if no tag was selected, return all grupos
@@ -73,17 +53,14 @@ export default {
             return grupos.filter(g => g.tags.some(t => selected.includes(t)));
         }
     },
-
     methods: {
         tagAdd(tag) {
-            if (! this.selected_tags.includes(tag))
-                this.selected_tags.push(tag)
+            if (! this.selectedTags.includes(tag))
+                this.selectedTags.push(tag)
         }
-    }
+    },
 }
 </script>
-
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style>
 .grupo {
@@ -119,3 +96,5 @@ export default {
     cursor: pointer;
 }
 </style>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
