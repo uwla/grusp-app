@@ -13,6 +13,7 @@ export default {
     },
     props: {
         message: String,
+        show: Boolean,
     }
 }
 </script>

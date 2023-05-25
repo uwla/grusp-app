@@ -1,34 +1,34 @@
 <template>
     <div>
-        <!-- ERROR LIST -->
-        <message-errors v-if="showErrors"
-            :errors="errors" @hide="hideErrors()" />
+        <!-- ERROR MESSAGE -->
+        <message-errors :errors="errors" @hide="hideErrors()" />
 
         <!-- SUCCESS MESSAGE -->
-        <message-success v-if="showSuccess"
-            :message="successMessage" @hide="hideSuccess()" />
+        <message-success :show="showSuccess" @hide="hideSuccess()">
+            {{ successMessage }}
+        </message-success>
 
         <!-- FORM -->
-        <form class="form" @submit.prevent="updateGrupo()">
-            <div class="form-field">
-                <label for="titulo">Título</label>
-                <input type="text" id="titulo" v-model="titulo">
-            </div>
-            <div class="form-field">
-                <label for="descricao">Descrição</label>
-                <textarea rows="5" id="descricao" v-model="descricao" />
-            </div>
-            <div class="form-field">
-                <label for="img">Imagem</label>
-                <input id="img" ref="img" type="file" @change="updateImg()">
-            </div>
-            <div class="form-field">
-                <label>Tags</label>
+        <form class="form" @submit.prevent="submitForm()">
+            <b-form-group label="Título" label-for="titulo">
+                <b-form-input type="text" v-model="titulo" id="titulo"/>
+            </b-form-group>
+            <b-form-group label="Descrição" label-for="descricao">
+                <b-form-textarea v-model="descricao" id="descricao" rows="8"/>
+            </b-form-group>
+            <b-form-group label="Imagem Principal" label-for="img">
+                <b-form-file v-model="img" id="img"/>
+            </b-form-group>
+            <b-form-group label="Tags">
                 <multiselect v-bind="params" v-model="tags" />
-            </div>
+            </b-form-group>
             <div class="form-buttons">
-                <button type="reset">RESETAR</button>
-                <button type="submit">ENVIAR</button>
+                <b-button variant="danger" type="reset">
+                    RESETAR
+                </b-button>
+                <b-button variant="success" type="submit">
+                    ENVIAR
+                </b-button>
             </div>
         </form>
     </div>
@@ -66,7 +66,8 @@ export default {
     },
 
     methods: {
-        updateGrupo() {
+
+        submitForm() {
             const { titulo, descricao, tags, img, method, url } = this
             const formData = new FormData()
 
@@ -97,10 +98,6 @@ export default {
                 .catch(e => {
                     this.handleErrors(e.response.data.errors)
                 })
-        },
-
-        updateImg() {
-            this.img = this.$refs.img.files[0];
         },
 
         hideErrors() {
