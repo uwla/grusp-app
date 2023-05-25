@@ -4,18 +4,30 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>#</th>
                     <th>TITULO</th>
                     <th>TAGS</th>
-                    <th>AÇÕES</th>
+                    <th class="text-center w-min">AÇÕES</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="grupo,i in grupos" :key="i">
-                    <td>{{ grupo.id }}</td>
                     <td>{{ grupo.titulo }}</td>
-                    <td>{{ grupo.tags }}</td>
-                    <td>BOTÕES DE AÇÃO...</td>
+                    <td>
+                        <div class="tag-container">
+                            <b-button variant="success" size="sm"
+                                v-for="tag,i in grupo.tags" :key="i">
+                                {{ tag }}
+                            </b-button>
+                        </div>
+                    </td>
+                    <td class="nowrap w-min">
+                        <b-button variant="success">
+                            <b-icon icon="eye" />
+                        </b-button>
+                        <b-button variant="primary">
+                            <b-icon icon="pencil" />
+                        </b-button>
+                    </td>
                 </tr>
             </tbody>
         </table>

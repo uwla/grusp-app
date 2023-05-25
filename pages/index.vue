@@ -14,12 +14,12 @@
             <p class="grupo-description">
                 {{ grupo.descricao }}
             </p>
-            <div class="grupo-tags">
-                <button v-for="tag,i in grupo.tags" :key="i"
-                    class="grupo-tag"
+            <div class="tag-container">
+                <b-button variant="success" size="sm"
+                    v-for="tag,i in grupo.tags" :key="i"
                     @click="tagAdd(tag)">
                     {{ tag }}
-                </button>
+                </b-button>
             </div>
         </div>
     </main>
@@ -81,19 +81,6 @@ export default {
 .grupo-description {
     text-align: justify;
     margin: 0;
-}
-
-.grupo-tags {
-    gap: 6px;
-    flex-wrap: wrap;
-    display: flex;
-}
-
-.grupo-tag {
-    background-color: #0f0;
-    border: 1px solid #000;
-    border-radius: 4px;
-    cursor: pointer;
 }
 </style>
 

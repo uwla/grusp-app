@@ -2,19 +2,19 @@
     <main class="w400">
         <h1>ENTRAR</h1>
 
-        <message-errors v-if="showErrors" :errors="errors" @hide="hideErrors()"/>
+        <message-errors :errors="errors" @hide="hideErrors()"/>
 
-        <form class="form" @submit.prevent="login()">
-            <div class="form-field">
-                <label for="email">Email</label>
-                <input type="text" v-model="email" name="email" id="email"/>
-            </div>
-            <div class="form-field">
-                <label for="password">Senha</label>
-                <input type="password" v-model="password" name="password" id="password"/>
-            </div>
-            <button type="submit">ENTRAR</button>
-        </form>
+        <b-form class="form" @submit.prevent="login()">
+            <b-form-group label="Email" label-for="email">
+                <b-form-input type="text" v-model="email" id="email"/>
+            </b-form-group>
+            <b-form-group label="Senha" label-for="passsword">
+                <b-form-input type="password" v-model="password" id="password"/>
+            </b-form-group>
+            <b-button block variant="success" type="submit">
+                ENTRAR
+            </b-button>
+        </b-form>
     </main>
 </template>
 
@@ -44,7 +44,7 @@ export default {
             this.email = ""
         },
 
-        login() {
+        login(e) {
             if (this.formBusy) return
             this.formBusy = true
             const { password, email } = this

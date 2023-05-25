@@ -1,10 +1,7 @@
 <template>
-    <div class="alert alert-success">
-        <button class="dismiss" aria-label="Close" @click="hide()">
-            <span aria-hidden="true">×</span>
-        </button>
-        {{ message }}
-    </div>
+    <b-alert variant="success" :show="show" dismissible @dismissed="hide()">
+        <slot></slot>
+    </b-alert>
 </template>
 
 <script>

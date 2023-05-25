@@ -2,24 +2,25 @@
     <main class="w400">
         <h1>REGISTRAR CONTA</h1>
 
-        <message-success v-if="showSuccess" :message="message" @hide="hideSuccess()" />
+        <message-success :show="showSuccess" @hide="hideSuccess()">
+            {{ message }}
+        </message-success>
 
-        <message-errors v-if="showErrors" :errors="errors" @hide="hideErrors()" />
+        <message-errors :errors="errors" @hide="hideErrors()" />
 
         <form class="form" @submit.prevent="register()">
-            <div class="form-field">
-                <label for="name">Nome</label>
-                <input type="text" v-model="name" name="name" id="name"/>
-            </div>
-            <div class="form-field">
-                <label for="email">Email</label>
-                <input type="text" v-model="email" name="email" id="email"/>
-            </div>
-            <div class="form-field">
-                <label for="password">Senha</label>
-                <input type="password" v-model="password" name="password" id="password"/>
-            </div>
-            <button type="submit">REGISTRAR</button>
+            <b-form-group label="Nome" label-for="name">
+                <b-form-input type="text" v-model="name" id="name"/>
+            </b-form-group>
+            <b-form-group label="Email" label-for="email">
+                <b-form-input type="text" v-model="email" id="email"/>
+            </b-form-group>
+            <b-form-group label="Senha" label-for="passsword">
+                <b-form-input type="password" v-model="password" id="password"/>
+            </b-form-group>
+            <b-button block variant="success" type="submit">
+                REGISTRAR
+            </b-button>
         </form>
     </main>
 </template>
@@ -32,8 +33,7 @@ export default {
             email: "",
             name: "",
             errors: [],
-            showErrors: false,
-            showSuccess: false,
+            showSuccess: true,
             message: "Conta criada com sucesso!",
             formBusy: false,
         }
@@ -96,7 +96,7 @@ export default {
          * Hide the errors from the user
          */
         hideErrors() {
-            this.showErrors = false
+            this.errors = []
         },
 
         /**

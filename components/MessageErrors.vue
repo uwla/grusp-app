@@ -1,18 +1,20 @@
 <template>
-    <div class="alert alert-danger">
-        <button class="dismiss" aria-label="Close" @click="hide()">
-            <span aria-hidden="true">×</span>
-        </button>
+    <b-alert :show="show" variant="danger" dismissible @dismissed="hide()">
         <ul>
             <li v-for="error,i in errors" :key="i">
                 {{ error }}
             </li>
         </ul>
-    </div>
+    </b-alert>
 </template>
 
 <script>
 export default {
+    computed: {
+        show() {
+            return this.errors.length > 0
+        }
+    },
     methods: {
         hide() {
             this.$emit('hide')
