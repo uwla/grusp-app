@@ -20,6 +20,9 @@ export default {
             grupo
         }
         return data
+    },
+    mounted() {
+        console.log(this.grupo)
     }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- ERROR MESSAGE -->
-        <message-errors :errors="errors" @hide="hideErrors()" />
+        <message-errors :errors="errors" @hide="hideErrors()"/>
 
         <!-- SUCCESS MESSAGE -->
         <message-success :show="showSuccess" @hide="hideSuccess()">
@@ -17,10 +17,13 @@
                 <b-form-textarea v-model="descricao" id="descricao" rows="8"/>
             </b-form-group>
             <b-form-group label="Imagem Principal" label-for="img">
-                <b-form-file v-model="img" id="img"/>
+                <b-form-file v-model="img" id="img" accept=".jpg"/>
+            </b-form-group>
+            <b-form-group label="Imagens extra" label-for="images">
+                <b-form-file v-model="images"  id="images" accept=".jpg" multiple/>
             </b-form-group>
             <b-form-group label="Tags">
-                <multiselect v-bind="params" v-model="tags" />
+                <multiselect v-bind="params" v-model="tags"/>
             </b-form-group>
             <div class="form-buttons">
                 <b-button variant="danger" type="reset">
@@ -41,6 +44,7 @@ export default {
             titulo: "",
             descricao: "",
             img: null,
+            images: [],
             tags: [],
             errors: [],
             showSuccess: false,
@@ -68,7 +72,7 @@ export default {
     methods: {
 
         submitForm() {
-            const { titulo, descricao, tags, img, method, url } = this
+            const { titulo, descricao, tags, img, images, method, url } = this
             const formData = new FormData()
 
             // append string fields
@@ -76,8 +80,11 @@ export default {
             formData.append('descricao', descricao)
             formData.append('_method', method)
 
-            // append file
+            // append main image
             if (img != null) formData.append('img', img)
+
+            // append additional images
+            images.forEach(im => formData.append('images[]', im))
 
             // append tag array
             tags.forEach(t => formData.append('tags[]', t))
