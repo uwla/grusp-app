@@ -1,26 +1,20 @@
 <template>
     <main>
         <h1>GRUSP</h1>
-        <multiselect
-            v-bind="params"
-            v-model="selectedTags"
-            >
-        </multiselect>
+        <multiselect v-bind="params" v-model="selectedTags" />
 
-        <div class="grupo" v-for="grupo,i in filteredGrupos" :key="i">
-            <h3 class="grupo-title">
-                {{ grupo.titulo }}
-            </h3>
-            <p class="grupo-description">
-                {{ grupo.descricao }}
-            </p>
-            <div class="tag-container">
-                <b-button variant="success" size="sm"
-                    v-for="tag,i in grupo.tags" :key="i"
-                    @click="tagAdd(tag)">
-                    {{ tag }}
-                </b-button>
-            </div>
+        <div v-for="grupo,i in filteredGrupos" :key="i">
+            <br/><br/>
+            <b-card img-src="/vue-logo.png" img-alt="Grupo logo" img-left :title="grupo.titulo" >
+                <p>{{ grupo.descricao }}</p>
+                <div class="tag-container">
+                    <b-button variant="success" size="sm"
+                        v-for="tag,i in grupo.tags" :key="i"
+                        @click="tagAdd(tag)">
+                        {{ tag }}
+                    </b-button>
+                </div>
+            </b-card>
         </div>
     </main>
 </template>
