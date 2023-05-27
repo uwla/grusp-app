@@ -1,7 +1,19 @@
 <template>
     <main>
         <h1>GRUSP</h1>
-        <multiselect v-bind="params" v-model="selectedTags" />
+
+        <form>
+            <b-form-group label="Pesquisar">
+                <b-form-input v-model="search"/>
+            </b-form-group>
+            <b-form-group label="Filtrar por tags">
+                <multiselect v-bind="params" v-model="selectedTags" />
+            </b-form-group>
+        </form>
+
+        <p>
+            Mostrando {{ filteredGrupos.length }} de {{ grupos.length }} grupos
+        </p>
 
         <div v-for="grupo,i in filteredGrupos" :key="i">
             <br/><br/>
@@ -21,6 +33,7 @@ export default {
         await store.dispatch('grupo/fetchTags')
         return {
             selectedTags: [],
+            search: "",
         }
     },
     computed: {
@@ -31,21 +44,27 @@ export default {
             return this.$store.state.grupo.grupos
         },
         filteredGrupos() {
-            let selected = this.selectedTags
-            let grupos = this.grupos
-
-            // if no tag was selected, return all grupos
-            if (selected.length == 0)
-                return grupos
-
-            // return the grupos such that the grupo has at least one tag that was selected
-            return grupos.filter(g => g.tags.some(t => selected.includes(t)));
+            return this.filterByTags(this.filterBySearch(this.grupos))
         }
     },
     methods: {
         tagAdd(tag) {
             if (! this.selectedTags.includes(tag))
                 this.selectedTags.push(tag)
+        },
+        filterByTags(grupos) {
+            let selected = this.selectedTags
+            if (selected.length == 0) return grupos
+            return grupos.filter(g => g.tags.some(t => selected.includes(t)));
+        },
+        filterBySearch(grupos) {
+            let search = this.search.toLowerCase()
+            if (search == "") return grupos
+            return grupos.filter(g => {
+                const t = g.titulo.toLowerCase()
+                const d = g.descricao.toLowerCase()
+                return t.includes(search) || d.includes(search)
+            });
         }
     },
 }
