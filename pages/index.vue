@@ -1,7 +1,6 @@
 <template>
     <main>
         <h1>GRUSP</h1>
-        <br/> <br/>
         <multiselect v-bind="params" v-model="selectedTags" />
 
         <div v-for="grupo,i in filteredGrupos" :key="i">
@@ -9,13 +8,7 @@
             <b-card img-src="/vue-logo.png" img-left>
                 <b-card-title>{{ grupo.titulo }}</b-card-title>
                 <b-card-text>{{ grupo.descricao }}</b-card-text>
-                <div class="tag-container">
-                    <b-button variant="success" size="sm"
-                        v-for="tag,i in grupo.tags" :key="i"
-                        @click="tagAdd(tag)">
-                        {{ tag }}
-                    </b-button>
-                </div>
+                <grupo-tags :tags="grupo.tags" @tagClicked="tagAdd"  />
             </b-card>
         </div>
     </main>

@@ -13,12 +13,7 @@
                 <tr v-for="grupo,i in grupos" :key="i">
                     <td>{{ grupo.titulo }}</td>
                     <td>
-                        <div class="tag-container">
-                            <b-button variant="success" size="sm"
-                                v-for="tag,i in grupo.tags" :key="i">
-                                {{ tag }}
-                            </b-button>
-                        </div>
+                        <grupo-tags :tags="grupo.tags" />
                     </td>
                     <td class="nowrap w-min">
                         <b-button variant="success">
