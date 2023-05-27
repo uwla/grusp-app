@@ -1,12 +1,14 @@
 <template>
     <main>
         <h1>GRUSP</h1>
+        <br/> <br/>
         <multiselect v-bind="params" v-model="selectedTags" />
 
         <div v-for="grupo,i in filteredGrupos" :key="i">
             <br/><br/>
-            <b-card img-src="/vue-logo.png" img-alt="Grupo logo" img-left :title="grupo.titulo" >
-                <p>{{ grupo.descricao }}</p>
+            <b-card img-src="/vue-logo.png" img-left>
+                <b-card-title>{{ grupo.titulo }}</b-card-title>
+                <b-card-text>{{ grupo.descricao }}</b-card-text>
                 <div class="tag-container">
                     <b-button variant="success" size="sm"
                         v-for="tag,i in grupo.tags" :key="i"
@@ -57,24 +59,25 @@ export default {
 </script>
 
 <style>
-.grupo {
-    border: 1px solid #ccc;
+@media (max-width: 1000px) {
+    .card {
+        flex-wrap: wrap;
+    }
+    .card-img-left {
+        margin: 1em auto 0 auto;
+    }
+}
+
+@media (min-width: 1001px) {
+    .card-img-left {
+        height: 250px;
+        margin: 1em;
+    }
+}
+
+.card-img-left {
+    border: 1px solid black;
     border-radius: 6px;
-    margin: 20px 0;
-    padding: 16px;
-    display: flex;
-    gap: 10px;
-    flex-direction: column;
-}
-
-.grupo-title {
-    text-transform: uppercase;
-    margin: 0;
-}
-
-.grupo-description {
-    text-align: justify;
-    margin: 0;
 }
 </style>
 
