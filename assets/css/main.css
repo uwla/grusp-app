@@ -2,20 +2,19 @@
     box-sizing: border-box;
 }
 
-html {
+html, body {
     padding: 0 !important;
     margin: 0 !important;
 }
 
 body {
-    padding: 32px;
     font-size: 17px;
 }
 
 main {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 1px;
+    padding: 32px;
 }
 
 img {
