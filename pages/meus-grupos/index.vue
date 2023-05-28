@@ -7,6 +7,10 @@
         </b-button>
         <br/><br/>
 
+        <b-modal ref="modal" hide-footer hide-header size="lg">
+            <grupo-view :grupo="modalGrupo" />
+        </b-modal>
+
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -22,7 +26,7 @@
                         <grupo-tags :tags="grupo.tags" />
                     </td>
                     <td class="nowrap w-min">
-                        <b-button variant="success" :href="`/grupos/${grupo.id}`">
+                        <b-button variant="success" @click="viewGrupo(grupo)">
                             <b-icon icon="eye" />
                         </b-button>
                         <b-button variant="primary" :href="`/meus-grupos/${grupo.id}`">
@@ -44,7 +48,14 @@ export default {
         const headers = { 'Authorization' : token }
         const grupos = (await $axios.get(url, { headers }) ).data
         return {
-            grupos
+            grupos: grupos,
+            modalGrupo: null // grupo shown in modal
+        }
+    },
+    methods: {
+        viewGrupo(grupo) {
+            this.modalGrupo = grupo
+            this.$refs['modal'].show()
         }
     }
 }

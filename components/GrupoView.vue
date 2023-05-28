@@ -40,7 +40,7 @@ export default {
             return fixImageUrl(this.grupo.img)
         },
         images() {
-            return this.grupo.images.map(fixImageUrl)
+            return (this.grupo.images || []).map(fixImageUrl)
         }
     },
     props: {
