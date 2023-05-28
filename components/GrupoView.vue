@@ -30,6 +30,7 @@
 <script>
 // silly fix for working locally (will be removed later)
 function fixImageUrl(img) {
+    if (typeof img !== "string") return ""
     return img.replace("localhost/", "localhost:8000/")
 }
 
