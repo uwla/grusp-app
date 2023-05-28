@@ -3,8 +3,6 @@
         <h1>Bem vindo</h1>
         <b>Nome</b>: {{ name }} <br/>
         <b>Email</b>: {{ email }} <br/>
-        <br/>
-        <router-link to="/conta/sair">LOGOUT</router-link>
     </main>
 </template>
 

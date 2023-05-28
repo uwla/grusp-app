@@ -33,7 +33,7 @@ export default {
             email: "",
             name: "",
             errors: [],
-            showSuccess: true,
+            showSuccess: false,
             message: "Conta criada com sucesso!",
             formBusy: false,
         }
