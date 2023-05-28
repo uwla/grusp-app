@@ -1,6 +1,12 @@
 <template>
     <main>
         <h1>MEUS GRUPOS</h1>
+
+        <b-button variant="success" href="/conta/meus-grupos/criar">
+            CRIAR GRUPO
+        </b-button>
+        <br/><br/>
+
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -16,10 +22,10 @@
                         <grupo-tags :tags="grupo.tags" />
                     </td>
                     <td class="nowrap w-min">
-                        <b-button variant="success">
+                        <b-button variant="success" :href="`/grupos/${grupo.id}`">
                             <b-icon icon="eye" />
                         </b-button>
-                        <b-button variant="primary">
+                        <b-button variant="primary" :href="`/conta/meus-grupos/editar/${grupo.id}`">
                             <b-icon icon="pencil" />
                         </b-button>
                     </td>
