@@ -2,7 +2,7 @@
     <main>
         <h1>MEUS GRUPOS</h1>
 
-        <b-button variant="success" href="/conta/meus-grupos/criar">
+        <b-button variant="success" href="/meus-grupos/criar">
             CRIAR GRUPO
         </b-button>
         <br/><br/>
@@ -25,7 +25,7 @@
                         <b-button variant="success" :href="`/grupos/${grupo.id}`">
                             <b-icon icon="eye" />
                         </b-button>
-                        <b-button variant="primary" :href="`/conta/meus-grupos/editar/${grupo.id}`">
+                        <b-button variant="primary" :href="`/meus-grupos/${grupo.id}`">
                             <b-icon icon="pencil" />
                         </b-button>
                     </td>
