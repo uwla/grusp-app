@@ -18,7 +18,9 @@
         <div v-for="grupo,i in filteredGrupos" :key="i">
             <br/><br/>
             <b-card img-src="/vue-logo.png" img-left>
-                <b-card-title>{{ grupo.titulo }}</b-card-title>
+                <b-link :href="`/grupos/${grupo.id}`">
+                    <b-card-title>{{ grupo.titulo }}</b-card-title>
+                </b-link>
                 <b-card-text>{{ grupo.descricao }}</b-card-text>
                 <grupo-tags :tags="grupo.tags" @tagClicked="tagAdd"  />
             </b-card>
