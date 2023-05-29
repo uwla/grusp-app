@@ -44,7 +44,7 @@ export default {
             this.email = ""
         },
 
-        login(e) {
+        login() {
             if (this.formBusy) return
             this.formBusy = true
             const { password, email } = this

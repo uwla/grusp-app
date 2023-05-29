@@ -22,9 +22,7 @@
             <tbody>
                 <tr v-for="grupo,i in grupos" :key="i">
                     <td>{{ grupo.titulo }}</td>
-                    <td>
-                        <grupo-tags :tags="grupo.tags" />
-                    </td>
+                    <td><grupo-tags :tags="grupo.tags" /></td>
                     <td class="nowrap w-min">
                         <b-button variant="success" @click="viewGrupo(grupo)">
                             <b-icon icon="eye" />
