@@ -15,7 +15,13 @@
             Mostrando {{ filteredGrupos.length }} de {{ grupos.length }} grupos
         </p>
 
-        <div v-for="grupo,i in filteredGrupos" :key="i">
+        <b-pagination v-model="currentPage"
+            align="center"
+            variant="success"
+            :total-rows="filteredGrupos.length"
+            :per-page="perPage" />
+
+        <div v-for="grupo,i in displayedGrupos" :key="i">
             <br/><br/>
             <b-card img-src="/vue-logo.png" img-left>
                 <b-link :href="`/grupos/${grupo.id}`">
@@ -25,6 +31,13 @@
                 <grupo-tags :tags="grupo.tags" @tagClicked="tagAdd"  />
             </b-card>
         </div>
+
+        <br/>
+        <b-pagination v-model="currentPage"
+            align="center"
+            variant="success"
+            :total-rows="filteredGrupos.length"
+            :per-page="perPage" />
     </main>
 </template>
 
@@ -36,6 +49,8 @@ export default {
         return {
             selectedTags: [],
             search: "",
+            currentPage: 1,
+            perPage: 5,
         }
     },
     computed: {
@@ -47,6 +62,11 @@ export default {
         },
         filteredGrupos() {
             return this.filterByTags(this.filterBySearch(this.grupos))
+        },
+        displayedGrupos() {
+            const first = (this.currentPage-1) * this.perPage
+            const last = first + this.perPage
+            return this.filteredGrupos.slice(first, last)
         }
     },
     methods: {
