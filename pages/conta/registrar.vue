@@ -1,5 +1,5 @@
 <template>
-    <main class="w400">
+    <main class="w500">
         <h1>REGISTRAR CONTA</h1>
 
         <message-success :show="showSuccess" @hide="hideSuccess()">
@@ -10,13 +10,16 @@
 
         <form class="form" @submit.prevent="register()">
             <b-form-group label="Nome" label-for="name">
-                <b-form-input type="text" v-model="name" id="name"/>
+                <b-form-input type="text" v-model="f.name" id="name"/>
             </b-form-group>
             <b-form-group label="Email" label-for="email">
-                <b-form-input type="text" v-model="email" id="email"/>
+                <b-form-input type="text" v-model="f.email" id="email"/>
             </b-form-group>
             <b-form-group label="Senha" label-for="passsword">
-                <b-form-input type="password" v-model="password" id="password"/>
+                <b-form-input type="password" v-model="f.password" id="password"/>
+            </b-form-group>
+            <b-form-group label="Confirmação da senha" label-for="passsword_confirmation">
+                <b-form-input type="password" v-model="f.password_confirmation" id="password_confirmation"/>
             </b-form-group>
             <b-button block variant="success" type="submit">
                 REGISTRAR
@@ -29,9 +32,12 @@
 export default {
     data() {
         const data = {
-            password: "",
-            email: "",
-            name: "",
+            f: {
+                name: "",
+                email: "",
+                password: "",
+                password_confirmation: "",
+            },
             errors: [],
             showSuccess: false,
             message: "Conta criada com sucesso!",
@@ -41,28 +47,16 @@ export default {
     },
 
     methods: {
-
-        /**
-         * Register new user.
-         */
         register() {
             if (this.formBusy) return
+            this.formBusy = true
 
-            const axios = this.$axios
-            const data = {
-                password: this.password,
-                email: this.email,
-                name: this.name,
-            }
-            const url = "http://localhost:8000/api/auth/register"
-
-            // clear messages
             this.hideErrors()
             this.hideSuccess()
 
-            // mark it as busy to avoid sending multiple requests if user
-            // clicks the submit button several times in a row
-            this.formBusy = true
+            const axios = this.$axios
+            const url = "http://localhost:8000/api/auth/register"
+            const data = this.f
 
             axios.post(url, data)
                 .then(() => {
@@ -71,19 +65,13 @@ export default {
                     this.clearForm()
                 })
                 .catch(e => {
-                    // Caught an exception.
-                    // The error message are in data field within the response.
                     let errors = e.response.data.errors
                     this.handleErrors(errors)
                 }).then(() => {
-                    // regardless of what happened, mark it as not busy
                     this.formBusy = false
                 });
         },
 
-        /**
-         * Handle request errors
-         */
         handleErrors(errors) {
             this.errors = []
             for (let field in errors)
@@ -92,34 +80,21 @@ export default {
             this.showErrors = true
         },
 
-        /**
-         * Hide the errors from the user
-         */
         hideErrors() {
             this.errors = []
         },
 
-        /**
-         * Hide the success message
-         */
         hideSuccess() {
             this.showSuccess = false
         },
 
-        /**
-         * Show the success message
-         */
         showSuccessMsg() {
             this.showSuccess = true
         },
 
-        /**
-         * Clear the form fields
-         */
         clearForm() {
-            this.password = ""
-            this.email = ""
-            this.name = ""
+            for (let field in this.f)
+                this.f[field] = ""
         }
     }
 }
