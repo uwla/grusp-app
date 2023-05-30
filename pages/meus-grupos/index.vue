@@ -30,6 +30,9 @@
                         <b-button variant="primary" :href="`/meus-grupos/${grupo.id}`">
                             <b-icon icon="pencil" />
                         </b-button>
+                        <b-button variant="danger" :href="`/meus-grupos/deletar/${grupo.id}`">
+                            <b-icon icon="trash" />
+                        </b-button>
                     </td>
                 </tr>
             </tbody>

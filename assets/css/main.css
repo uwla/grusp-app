@@ -62,25 +62,6 @@ ul {
     padding: 16px
 }
 
-.form [type=reset], .form [type=submit] {
-    display: block;
-    cursor: pointer;
-    border-radius: 6px;
-    border: none;
-    color: #fff;
-    width: 100%;
-    font-weight: bold;
-    padding: 8px;
-}
-
-.form [type=reset] {
-    background-color: #dc3545;
-}
-
-.form [type=submit] {
-    background-color: #28a745;
-}
-
 .form-field {
     margin-bottom: 1em;
 }
