@@ -26,12 +26,8 @@
                 <multiselect v-bind="params" v-model="tags"/>
             </b-form-group>
             <div class="form-buttons">
-                <b-button variant="danger" type="reset">
-                    RESETAR
-                </b-button>
-                <b-button variant="success" type="submit">
-                    ENVIAR
-                </b-button>
+                <b-button block variant="success" type="submit"> ENVIAR </b-button>
+                <b-button block variant="danger" type="reset"> RESETAR </b-button>
             </div>
         </form>
     </div>
