@@ -19,15 +19,36 @@
             <b-form-group label="Imagem Principal" label-for="img">
                 <b-form-file v-model="img" id="img" accept=".jpg"/>
             </b-form-group>
-            <b-form-group label="Imagens extra" label-for="images">
+
+            <b-form-group label="Fotos do grupo" label-for="images">
                 <b-form-file v-model="images"  id="images" accept=".jpg" multiple/>
             </b-form-group>
-            <b-form-group label="Tags">
+            <b-form-group label="Informações de contato" label-for="contato">
+                <b-form-textarea v-model="contato" id="contato" rows="3"/>
+            </b-form-group>
+            <b-form-group label="Informações de horários de encontro" label-for="horario">
+                <b-form-textarea v-model="horario" id="horario" rows="3"/>
+            </b-form-group>
+            <b-form-group label="Informações do lugar de encontro" label-for="lugar">
+                <b-form-textarea v-model="lugar" id="lugar" rows="3"/>
+            </b-form-group>
+            <b-form-group label="Informações sobre mensalidade" label-for="mensalidade">
+                <b-form-textarea v-model="mensalidade" id="mensalidade" rows="3"/>
+            </b-form-group>
+            <b-form-group label="Informações sobre público alvo" label-for="publico">
+                <b-form-textarea v-model="publico" id="publico" rows="3"/>
+            </b-form-group>
+            <b-form-group label="Links úteis (redes sociais, grupos de mensagem, site)" label-for="links">
+                <b-form-textarea v-model="links" id="links" rows="3"/>
+            </b-form-group>
+
+            <b-form-group label="Categoria do grupo">
                 <multiselect v-bind="params" v-model="tags"/>
             </b-form-group>
+
             <div class="form-buttons">
-                <b-button block variant="success" type="submit"> ENVIAR </b-button>
-                <b-button block variant="danger" type="reset"> RESETAR </b-button>
+                <b-button block variant="success" type="submit">ENVIAR</b-button>
+                <b-button block variant="danger" type="reset">RESETAR</b-button>
             </div>
         </form>
     </div>
@@ -39,6 +60,12 @@ export default {
         return {
             titulo: "",
             descricao: "",
+            contato: "",
+            mensalidade: "",
+            horario: "",
+            lugar: "",
+            publico: "",
+            links: "",
             img: null,
             images: [],
             tags: [],
@@ -48,7 +75,7 @@ export default {
     },
 
     computed: {
-        // these are the parameters for the vue multiselect
+        // these are the parameters for vue multiselect
         params() {
             return this.$store.getters['grupo/multiselectParams']
         },
@@ -62,18 +89,31 @@ export default {
         // initialize the values
         this.titulo = this.grupo.titulo ?? ""
         this.descricao = this.grupo.descricao ?? ""
+        this.contato = this.grupo.contato ?? ""
+        this.horario = this.grupo.horario ?? ""
+        this.links = this.grupo.links ?? ""
+        this.lugar = this.grupo.lugar ?? ""
+        this.mensalidade = this.grupo.mensalidade ?? ""
+        this.publico = this.grupo.publico ?? ""
         this.tags = this.grupo.tags ?? []
     },
 
     methods: {
 
         submitForm() {
-            const { titulo, descricao, tags, img, images, method, url } = this
+            const { contato, descricao, horario, images, img, links, lugar,
+                mensalidade, method, publico, tags, titulo, url } = this
             const formData = new FormData()
 
             // append string fields
             formData.append('titulo', titulo)
             formData.append('descricao', descricao)
+            formData.append('contato', contato)
+            formData.append('horario', horario)
+            formData.append('links', links)
+            formData.append('lugar', lugar)
+            formData.append('mensalidade', mensalidade)
+            formData.append('publico', publico)
             formData.append('_method', method)
 
             // append main image
