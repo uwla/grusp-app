@@ -6,7 +6,7 @@
                 <b-dropdown-item v-if="isGuest" href="/conta/entrar">Entrar</b-dropdown-item>
                 <b-dropdown-item v-if="isGuest" href="/conta/registrar">Registrar</b-dropdown-item>
                 <b-dropdown-item v-if="isUser"  href="/meus-grupos">Meus grupos</b-dropdown-item>
-                <b-dropdown-item v-if="isUser"  href="/conta/">Meu perfil</b-dropdown-item>
+                <b-dropdown-item v-if="isUser"  href="/perfil/">Meu perfil</b-dropdown-item>
                 <b-dropdown-item v-if="isUser"  href="/conta/sair">Sair</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>

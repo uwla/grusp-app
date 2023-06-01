@@ -72,7 +72,7 @@ export default {
         redirect: {
                 login: '/conta/entrar',
                 logout: '/conta/entrar',
-                home: '/conta/'
+                home: '/perfil/'
         }
     },
 
