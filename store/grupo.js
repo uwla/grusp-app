@@ -42,6 +42,11 @@ export const mutations = {
     },
     setGrupos(state, grupos) {
         state.grupos = grupos
+
+        // weird fix for local development only
+        state.grupos.forEach(g => {
+            g.img = (g.img || "").replace("localhost/", "localhost:8000/")
+        })
     },
 }
 

@@ -11,20 +11,21 @@
             </b-form-group>
         </form>
 
+        <b-modal ref="modal" hide-footer hide-header size="lg">
+            <grupo-view :grupo="modalGrupo" />
+        </b-modal>
+
         <p>
             Mostrando {{ filteredGrupos.length }} de {{ grupos.length }} grupos
         </p>
 
-        <b-pagination v-model="currentPage"
-            align="center"
-            variant="success"
-            :total-rows="filteredGrupos.length"
-            :per-page="perPage" />
+        <b-pagination align="center" variant="success" v-model="currentPage"
+            :total-rows="filteredGrupos.length" :per-page="perPage" />
 
         <div v-for="grupo,i in displayedGrupos" :key="i">
             <br/><br/>
-            <b-card img-src="/vue-logo.png" img-left>
-                <b-link :href="`/grupos/${grupo.id}`">
+            <b-card :img-src="grupo.img || defaultImg" img-left>
+                <b-link @click="viewGrupo(grupo)" href="#">
                     <b-card-title>{{ grupo.titulo }}</b-card-title>
                 </b-link>
                 <b-card-text>{{ grupo.descricao }}</b-card-text>
@@ -33,11 +34,9 @@
         </div>
 
         <br/>
-        <b-pagination v-model="currentPage"
-            align="center"
-            variant="success"
-            :total-rows="filteredGrupos.length"
-            :per-page="perPage" />
+        <b-pagination align="center" variant="success" v-model="currentPage"
+            :total-rows="filteredGrupos.length" :per-page="perPage" />
+
     </main>
 </template>
 
@@ -49,8 +48,10 @@ export default {
         return {
             selectedTags: [],
             search: "",
+            modalGrupo: null,
             currentPage: 1,
             perPage: 5,
+            defaultImg: "/vue-logo.png" ,
         }
     },
     computed: {
@@ -87,6 +88,10 @@ export default {
                 const d = g.descricao.toLowerCase()
                 return t.includes(search) || d.includes(search)
             });
+        },
+        viewGrupo(grupo) {
+            this.modalGrupo = grupo
+            this.$refs['modal'].show()
         }
     },
 }
@@ -104,7 +109,8 @@ export default {
 
 @media (min-width: 1001px) {
     .card-img-left {
-        height: 250px;
+        height: 280px;
+        width: 280px;
         margin: 1em;
     }
 }

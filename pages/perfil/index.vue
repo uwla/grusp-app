@@ -1,9 +1,10 @@
 <template>
     <main class="w500">
         <h1>Bem vindo</h1>
-        <b>Nome</b>: {{ name }} <br/>
-        <b>Email</b>: {{ email }} <br/>
-        <br/>
+        <div class="profile-info">
+            <b>Nome</b>: {{ name }} <br/>
+            <b>Email</b>: {{ email }} <br/>
+        </div>
         <b-button variant="primary" href="/perfil/editar">EDITAR PERFIL</b-button>
     </main>
 </template>
@@ -21,3 +22,9 @@ export default {
     },
 }
 </script>
+
+<style type="text/css">
+.profile-info {
+    margin-bottom: 2rem;
+}
+</style>
