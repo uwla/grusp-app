@@ -75,3 +75,7 @@ ul {
 .form-buttons button {
     margin-top: 0 !important;
 }
+
+.form-group {
+    margin-bottom: 1.3rem !important;
+}

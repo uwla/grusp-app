@@ -9,15 +9,20 @@
         </message-success>
 
         <!-- FORM -->
-        <form class="form" @submit.prevent="submitForm()">
+        <form class="form" @submit.prevent="nothing()">
             <b-form-group label="Título" label-for="titulo">
                 <b-form-input type="text" v-model="titulo" id="titulo"/>
             </b-form-group>
             <b-form-group label="Descrição" label-for="descricao">
                 <b-form-textarea v-model="descricao" id="descricao" rows="8"/>
             </b-form-group>
-            <b-form-group label="Imagem Principal" label-for="img">
-                <b-form-file v-model="img" id="img" accept=".jpg"/>
+
+            <b-form-group label="Imagem Principal">
+                <div v-if="imgURI">
+                    <img :src="imgURI" alt="">
+                    <p class="text-center">A imagem acima será a imagem do grupo</p>
+                </div>
+                <vue-anka-cropper :options="cropperOptions" @cropper-saved="updateImg"/>
             </b-form-group>
 
             <b-form-group label="Fotos do grupo" label-for="images">
@@ -47,7 +52,9 @@
             </b-form-group>
 
             <div class="form-buttons">
-                <b-button block variant="success" type="submit">ENVIAR</b-button>
+                <b-button block variant="success" @click="submitForm()">
+                    ENVIAR
+                </b-button>
                 <b-button block variant="danger" type="reset">RESETAR</b-button>
             </div>
         </form>
@@ -67,10 +74,16 @@ export default {
             publico: "",
             links: "",
             img: null,
+            imgURI: null,
             images: [],
             tags: [],
             errors: [],
             showSuccess: false,
+            cropperOptions: {
+                showPreview: false,
+                dropareaMessage: "Descarregue a imagem aqui",
+                selectButtonLabel: "Selecionar imagem",
+            },
         }
     },
 
@@ -96,10 +109,21 @@ export default {
         this.mensalidade = this.grupo.mensalidade ?? ""
         this.publico = this.grupo.publico ?? ""
         this.tags = this.grupo.tags ?? []
+        this.imgURI = (this.grupo.img ?? "").replace("localhost/", "localhost:8000/")
     },
 
     methods: {
+        updateImg(payload) {
+            this.img = payload.croppedFile
+            this.imgURI = payload.croppedImageURI
+        },
 
+        // don't do nothing
+        // this is due to VueAnkaCropper plugin which is accidentally submiting
+        // the form even if the user does not click the SUBMIT button
+        nothing() { },
+
+        // actually submit the form
         submitForm() {
             const { contato, descricao, horario, images, img, links, lugar,
                 mensalidade, method, publico, tags, titulo, url } = this
@@ -168,3 +192,16 @@ export default {
     }
 }
 </script>
+
+<style type="text/css">
+.ankaCropper a {
+    box-sizing: content-box;
+}
+.ankaCropper svg {
+    vertical-align: unset;
+}
+.ankaCropper__saveButton {
+    display: flex !important;
+    align-items: center;
+}
+</style>

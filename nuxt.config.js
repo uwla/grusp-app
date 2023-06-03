@@ -26,6 +26,7 @@ export default {
     plugins: [
         '~/plugins/bootstrap-vue.js',
         '~/plugins/vue-multiselect.js',
+        '~/plugins/vue-anka-cropper.js',
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
