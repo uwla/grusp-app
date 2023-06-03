@@ -25,9 +25,19 @@
                 <vue-anka-cropper :options="cropperOptions" @cropper-saved="updateImg"/>
             </b-form-group>
 
-            <b-form-group label="Fotos do grupo" label-for="images">
+            <b-form-group label="Fotos do grupo (adicionar fotos)" label-for="images">
                 <b-form-file v-model="images"  id="images" accept=".jpg" multiple/>
             </b-form-group>
+
+            <b-form-group v-if="imagesCurrent.length > 0"
+                label="Fotos atuais do grupo (selecione para remover)">
+                <b-form-checkbox-group v-model="imagesToDel">
+                    <b-form-checkbox v-for="img,i in imagesCurrent" :key="i" :value="img.id">
+                        <img class="img-check" :src="img.url">
+                    </b-form-checkbox>
+                </b-form-checkbox-group>
+            </b-form-group>
+
             <b-form-group label="Informações de contato" label-for="contato">
                 <b-form-textarea v-model="contato" id="contato" rows="3"/>
             </b-form-group>
@@ -62,6 +72,11 @@
 </template>
 
 <script>
+function fixImageUrl(img) {
+    if (typeof img !== "string") return ""
+    return img.replace("localhost/", "localhost:8000/")
+}
+
 export default {
     data() {
         return {
@@ -76,6 +91,8 @@ export default {
             img: null,
             imgURI: null,
             images: [],
+            imagesCurrent: [],
+            imagesToDel: [],
             tags: [],
             errors: [],
             showSuccess: false,
@@ -109,7 +126,11 @@ export default {
         this.mensalidade = this.grupo.mensalidade ?? ""
         this.publico = this.grupo.publico ?? ""
         this.tags = this.grupo.tags ?? []
-        this.imgURI = (this.grupo.img ?? "").replace("localhost/", "localhost:8000/")
+        this.imgURI = fixImageUrl(this.grupo.img)
+
+        this.imagesCurrent = this.grupo.images ?? []
+        for (let i in this.imagesCurrent)
+            this.imagesCurrent[i].url = fixImageUrl(this.imagesCurrent[i].url)
     },
 
     methods: {
@@ -125,7 +146,7 @@ export default {
 
         // actually submit the form
         submitForm() {
-            const { contato, descricao, horario, images, img, links, lugar,
+            const { contato, descricao, horario, images, imagesToDel, img, links, lugar,
                 mensalidade, method, publico, tags, titulo, url } = this
             const formData = new FormData()
 
@@ -143,8 +164,11 @@ export default {
             // append main image
             if (img != null) formData.append('img', img)
 
-            // append additional images
+            // append images to be added
             images.forEach(im => formData.append('images[]', im))
+
+            // append images to be deleted
+            imagesToDel.forEach(im => formData.append('images_del[]', im))
 
             // append tag array
             tags.forEach(t => formData.append('tags[]', t))
@@ -189,7 +213,8 @@ export default {
         url: String,
         method: String,
         successMessage: String,
-    }
+    },
+
 }
 </script>
 
@@ -203,5 +228,10 @@ export default {
 .ankaCropper__saveButton {
     display: flex !important;
     align-items: center;
+}
+.form .img-check {
+    width: 80px;
+    margin: 5px;
+    height: 80px;
 }
 </style>
