@@ -76,7 +76,7 @@ export default {
 
             const auth = this.$auth
             const axios = this.$axios
-            const url = "http://localhost:8000/api/account/profile"
+            const url = "/account/profile"
             const token = auth.strategy.token.get()
             const headers = { 'Authorization' : token }
 

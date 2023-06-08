@@ -72,11 +72,6 @@
 </template>
 
 <script>
-function fixImageUrl(img) {
-    if (typeof img !== "string") return ""
-    return img.replace("localhost/", "localhost:8000/")
-}
-
 export default {
     data() {
         return {
@@ -126,11 +121,8 @@ export default {
         this.mensalidade = this.grupo.mensalidade ?? ""
         this.publico = this.grupo.publico ?? ""
         this.tags = this.grupo.tags ?? []
-        this.imgURI = fixImageUrl(this.grupo.img)
-
+        this.imgURI = this.grupo.img ?? ""
         this.imagesCurrent = this.grupo.images ?? []
-        for (let i in this.imagesCurrent)
-            this.imagesCurrent[i].url = fixImageUrl(this.imagesCurrent[i].url)
     },
 
     methods: {

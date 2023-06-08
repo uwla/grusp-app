@@ -8,7 +8,7 @@
 export default {
     async asyncData({ $axios, params }) {
         const id = params.id
-        const url = `http://localhost:8000/api/public/grupos/${id}`
+        const url = `/public/grupos/${id}`
         const grupo = (await $axios.get(url)).data
         const data = {
             grupo

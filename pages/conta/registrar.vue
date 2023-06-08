@@ -55,7 +55,7 @@ export default {
             this.hideSuccess()
 
             const axios = this.$axios
-            const url = "http://localhost:8000/api/auth/register"
+            const url = "/auth/register"
             const data = this.f
 
             axios.post(url, data)

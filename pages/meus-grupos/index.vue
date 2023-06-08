@@ -44,7 +44,7 @@
 export default {
     middleware: 'auth',
     async asyncData({ $auth, $axios }) {
-        const url = "http://localhost:8000/api/account/grupos"
+        const url = "/account/grupos"
         const token = $auth.strategy.token.get()
         const headers = { 'Authorization' : token }
         const grupos = (await $axios.get(url, { headers }) ).data

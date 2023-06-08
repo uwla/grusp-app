@@ -72,6 +72,8 @@ export default {
     },
     methods: {
         tagAdd(tag) {
+            console.log(this.$auth.user)
+            console.log(this.$auth)
             if (! this.selectedTags.includes(tag))
                 this.selectedTags.push(tag)
         },

@@ -70,19 +70,13 @@
 </template>
 
 <script>
-// silly fix for working locally (will be removed later)
-function fixImageUrl(img) {
-    if (typeof img !== "string") return ""
-    return img.replace("localhost/", "localhost:8000/")
-}
-
 export default {
     computed: {
         img() {
-            return fixImageUrl(this.grupo.img)
+            return this.grupo.img
         },
         images() {
-            return this.grupo.images.map(img => fixImageUrl(img.url))
+            return this.grupo.images
         }
     },
     props: {

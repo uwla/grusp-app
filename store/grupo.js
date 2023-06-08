@@ -42,22 +42,17 @@ export const mutations = {
     },
     setGrupos(state, grupos) {
         state.grupos = grupos
-
-        // weird fix for local development only
-        state.grupos.forEach(g => {
-            g.img = (g.img || "").replace("localhost/", "localhost:8000/")
-        })
     },
 }
 
 export const actions = {
     async fetchTags({ commit }) {
-        const url = "http://localhost:8000/api/public/tags"
+        const url = "/public/tags"
         const tags = (await this.$axios.get(url)).data
         commit('setTags', tags)
     },
     async fetchGrupos({ commit }) {
-        const url = "http://localhost:8000/api/public/grupos"
+        const url = "/public/grupos"
         const grupos = (await this.$axios.get(url)).data
         commit('setGrupos', grupos)
     },

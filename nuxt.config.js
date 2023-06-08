@@ -40,40 +40,51 @@ export default {
     modules: [
         '@nuxtjs/axios',
         '@nuxtjs/auth-next',
+        '@nuxtjs/proxy'
     ],
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
     },
 
+    baseURL: "http://grusp.test",
+
     // MODULES
     axios: {
         credentials: true,
+        baseURL: 'http://api.grusp.test/api',
     },
 
     auth: {
+        cookies: {
+            options: {
+                domain: '.grusp.test',
+                sameSite: 'none', // or 'lax' if 'none' doesn't work
+            },
+        },
         strategies: {
-            laravelSanctum: {
-                provider: 'laravel/sanctum',
-                url: 'http://localhost:8000',
+            local: {
+                provider: 'local',
                 endpoints: {
-                    login:  { url: '/api/auth/login', method: 'post' },
-                    logout: { url: '/api/auth/logout', method: 'post' },
-                    user:   { url: '/api/account/profile', method: 'get' }
+                    login:  { url: '/auth/login', method: 'post' },
+                    logout: { url: '/auth/logout', method: 'post' },
+                    user:   { url: '/account/profile', method: 'get' }
                 },
                 token: {
-                    property: false,
+                    property: 'token',
+                    type: 'Bearer',
+                    required: true,
                 },
                 user: {
                     property: false,
-                    autoFetch: false,
+                    autoFetch: true,
                 }
             },
         },
         redirect: {
                 login: '/conta/entrar',
                 logout: '/conta/entrar',
-                home: '/perfil/'
+                home: '/perfil'
         }
     },
 

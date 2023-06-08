@@ -20,7 +20,7 @@ export default {
                 grupo: {},
                 method: "post",
                 successMessage: "Grupo criado!",
-                url: "http://localhost:8000/api/grupo",
+                url: "/grupo",
             }
         }
     },

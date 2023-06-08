@@ -49,13 +49,12 @@ export default {
             this.formBusy = true
             const { password, email } = this
             const auth = this.$auth
-            auth.loginWith('laravelSanctum', {
+            // auth.loginWith('laravelSanctum', {
+            auth.loginWith('local', {
                     data: { password, email }
                 })
                 .then(response => {
-                    const { token, user } = response.data
-                    auth.strategy.token.set(`Bearer ${token}`)
-                    auth.setUser(user)
+                    //
                 })
                 .catch(exception => {
                     const response = exception.response

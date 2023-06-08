@@ -17,7 +17,7 @@ export default {
 
         // fetch the Grupo
         const id = params.id
-        const url = `http://localhost:8000/api/grupo/${id}`
+        const url = `/grupo/${id}`
         const token = $auth.strategy.token.get()
         const headers = { 'Authorization' : token }
         const grupo = (await $axios.get(url, { headers }) ).data

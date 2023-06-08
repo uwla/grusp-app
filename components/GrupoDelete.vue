@@ -41,7 +41,7 @@ export default {
             if (this.formBusy) return
             this.formBusy = true
 
-            const url = `http://localhost:8000/api/grupo/${this.grupo.id}`;
+            const url = `/grupo/${this.grupo.id}`;
             const token = this.$auth.strategy.token.get()
             const headers = {
                 'Authorization': token,
