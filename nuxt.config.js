@@ -40,7 +40,6 @@ export default {
     modules: [
         '@nuxtjs/axios',
         '@nuxtjs/auth-next',
-        '@nuxtjs/proxy'
     ],
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -52,16 +51,9 @@ export default {
     // MODULES
     axios: {
         credentials: true,
-        baseURL: 'http://api.grusp.test/api',
     },
 
     auth: {
-        cookies: {
-            options: {
-                domain: '.grusp.test',
-                sameSite: 'none', // or 'lax' if 'none' doesn't work
-            },
-        },
         strategies: {
             local: {
                 provider: 'local',
@@ -77,7 +69,7 @@ export default {
                 },
                 user: {
                     property: false,
-                    autoFetch: true,
+                    autoFetch: false,
                 }
             },
         },

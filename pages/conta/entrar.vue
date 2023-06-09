@@ -54,7 +54,7 @@ export default {
                     data: { password, email }
                 })
                 .then(response => {
-                    //
+                    auth.setUser(response.data.user)
                 })
                 .catch(exception => {
                     const response = exception.response
