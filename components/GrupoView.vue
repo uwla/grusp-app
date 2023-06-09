@@ -4,8 +4,8 @@
         <h1>{{ grupo.titulo }}</h1>
 
         <!-- main image -->
-        <div v-if="img">
-            <b-img :src="img" center />
+        <div v-if="grupo.img">
+            <b-img :src="grupo.img" center />
         </div>
 
         <!-- description -->
@@ -51,11 +51,11 @@
         </div>
 
         <!-- carousel -->
-        <div v-if="images.length > 0">
+        <div v-if="grupo.images.length > 0">
             <b>Fotos do grupo:</b>
             <b-carousel :interval="0" controls indicators background="black">
-                <b-carousel-slide v-for="image,i in images" :key="i"
-                    :img-src="image"
+                <b-carousel-slide v-for="image,i in grupo.images" :key="i"
+                    :img-src="image.url"
                     img-height="250px" />
             </b-carousel>
             <br/>
@@ -71,14 +71,6 @@
 
 <script>
 export default {
-    computed: {
-        img() {
-            return this.grupo.img
-        },
-        images() {
-            return this.grupo.images
-        }
-    },
     props: {
         grupo: Object
     }
