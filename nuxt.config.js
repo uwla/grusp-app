@@ -24,7 +24,6 @@ export default {
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
-        '~/plugins/bootstrap-vue.js',
         '~/plugins/vue-multiselect.js',
         '~/plugins/vue-anka-cropper.js',
     ],
@@ -40,6 +39,7 @@ export default {
     modules: [
         '@nuxtjs/axios',
         '@nuxtjs/auth-next',
+        'bootstrap-vue/nuxt',
     ],
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -78,6 +78,10 @@ export default {
                 logout: '/conta/entrar',
                 home: '/perfil'
         }
+    },
+
+    bootstrapVue: {
+        icons: true,
     },
 
     // telemetry
