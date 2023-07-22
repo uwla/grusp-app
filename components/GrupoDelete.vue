@@ -1,9 +1,7 @@
 <template>
     <div>
-        <!-- ERROR MESSAGE -->
         <message-errors :errors="errors" @hide="hideErrors()"/>
 
-        <!-- SUCCESS MESSAGE -->
         <message-success :show="showSuccess" @hide="hideSuccess()">
             Grupo deletado!
         </message-success>
@@ -40,18 +38,16 @@ export default {
         submitForm() {
             if (this.formBusy) return
             this.formBusy = true
+            this.errors = []
+            this.showSuccess = false
 
             const url = `/grupo/${this.grupo.id}`;
-            const token = this.$auth.strategy.token.get()
-            const headers = {
-                'Authorization': token,
-            }
             const data = {
                 password: this.password,
                 _method: "delete"
             }
 
-            this.$axios.post(url, data, { headers })
+            this.$axios.post(url, data)
                 .then(res => {
                     this.hideErrors()
                     this.showSuccess = true
@@ -59,7 +55,7 @@ export default {
                     setTimeout(() => this.$router.push('/meus-grupos'), 1500)
                 })
                 .catch(e => {
-                    this.handleErrors(e.response.data.errors)
+                    this.errors = parseResponseErrors(e.response)
                 })
                 .finally(() => this.formBusy = false)
         },
@@ -70,14 +66,6 @@ export default {
 
         hideSuccess() {
             this.showSuccess = false
-        },
-
-        handleErrors(errorsObj) {
-            const errors = []
-            for (let field in errorsObj)
-                for (let errorMessage of errorsObj[field])
-                    errors.push(errorMessage)
-            this.errors = errors
         },
     },
 

@@ -3,20 +3,13 @@
         <grupo-view :grupo="grupo" />
     </main>
 </template>
-
 <script>
 export default {
     async asyncData({ $axios, params }) {
         const id = params.id
         const url = `/public/grupos/${id}`
         const grupo = (await $axios.get(url)).data
-        const data = {
-            grupo
-        }
-        return data
+        return { grupo }
     },
-    mounted() {
-        console.log(this.grupo)
-    }
 }
 </script>

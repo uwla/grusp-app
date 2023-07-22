@@ -68,7 +68,6 @@
         </div>
     </div>
 </template>
-
 <script>
 export default {
     props: {
@@ -76,7 +75,6 @@ export default {
     }
 }
 </script>
-
 <style type="text/css">
 .carousel-item img {
     height: 400px !important;

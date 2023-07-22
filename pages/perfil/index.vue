@@ -2,13 +2,14 @@
     <main class="w500">
         <h1>Bem vindo</h1>
         <div class="profile-info">
-            <b>Nome</b>: {{ name }} <br/>
-            <b>Email</b>: {{ email }} <br/>
+            <b>Nome</b> : {{ name }} <br />
+            <b>Email</b> : {{ email }} <br />
         </div>
-        <b-button variant="primary" href="/perfil/editar">EDITAR PERFIL</b-button>
+        <b-button variant="primary" href="/perfil/editar">
+            EDITAR PERFIL
+        </b-button>
     </main>
 </template>
-
 <script>
 export default {
     middleware: 'auth',
@@ -22,7 +23,6 @@ export default {
     },
 }
 </script>
-
 <style type="text/css">
 .profile-info {
     margin-bottom: 2rem;

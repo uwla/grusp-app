@@ -5,7 +5,8 @@
         <b-button variant="success" href="/meus-grupos/criar">
             CRIAR GRUPO
         </b-button>
-        <br/><br/>
+        <br />
+        <br />
 
         <b-modal ref="modal" hide-footer hide-header size="lg">
             <grupo-view :grupo="modalGrupo" />
@@ -20,17 +21,23 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="grupo,i in grupos" :key="i">
+                <tr v-for="(grupo, i) in grupos" :key="i">
                     <td>{{ grupo.titulo }}</td>
                     <td><grupo-tags :tags="grupo.tags" /></td>
                     <td class="nowrap w-min">
                         <b-button variant="success" @click="viewGrupo(grupo)">
                             <b-icon icon="eye" />
                         </b-button>
-                        <b-button variant="primary" :href="`/meus-grupos/${grupo.id}`">
+                        <b-button
+                            variant="primary"
+                            :href="`/meus-grupos/${grupo.id}`"
+                        >
                             <b-icon icon="pencil" />
                         </b-button>
-                        <b-button variant="danger" :href="`/meus-grupos/deletar/${grupo.id}`">
+                        <b-button
+                            variant="danger"
+                            :href="`/meus-grupos/deletar/${grupo.id}`"
+                        >
                             <b-icon icon="trash" />
                         </b-button>
                     </td>
@@ -43,21 +50,19 @@
 <script>
 export default {
     middleware: 'auth',
-    async asyncData({ $auth, $axios }) {
-        const url = "/account/grupos"
-        const token = $auth.strategy.token.get()
-        const headers = { 'Authorization' : token }
-        const grupos = (await $axios.get(url, { headers }) ).data
+    async asyncData({ $axios }) {
+        const url = '/account/grupos'
+        const grupos = (await $axios.get(url)).data
         return {
             grupos: grupos,
-            modalGrupo: null // grupo shown in modal
+            modalGrupo: null, // grupo shown in modal
         }
     },
     methods: {
         viewGrupo(grupo) {
             this.modalGrupo = grupo
             this.$refs['modal'].show()
-        }
-    }
+        },
+    },
 }
 </script>

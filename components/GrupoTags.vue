@@ -6,7 +6,6 @@
         </b-button>
     </div>
 </template>
-
 <script>
 export default {
     methods: {

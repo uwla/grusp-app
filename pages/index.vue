@@ -4,7 +4,7 @@
 
         <form>
             <b-form-group label="Pesquisar">
-                <b-form-input v-model="search"/>
+                <b-form-input v-model="search" />
             </b-form-group>
             <b-form-group label="Filtrar por tags">
                 <multiselect v-bind="params" v-model="selectedTags" />
@@ -15,31 +15,28 @@
             <grupo-view :grupo="modalGrupo" />
         </b-modal>
 
-        <p>
-            Mostrando {{ filteredGrupos.length }} de {{ grupos.length }} grupos
-        </p>
+        <p>Mostrando {{ filteredGrupos.length }} de {{ grupos.length }} grupos</p>
 
-        <b-pagination align="center" variant="success" v-model="currentPage"
+        <b-pagination v-model="currentPage" align="center"
             :total-rows="filteredGrupos.length" :per-page="perPage" />
 
-        <div v-for="grupo,i in displayedGrupos" :key="i">
-            <br/><br/>
+        <div v-for="(grupo, i) in displayedGrupos" :key="i">
+            <br />
+            <br />
             <b-card :img-src="grupo.img || defaultImg" img-left>
                 <b-link @click="viewGrupo(grupo)" href="#">
                     <b-card-title>{{ grupo.titulo }}</b-card-title>
                 </b-link>
                 <b-card-text>{{ grupo.descricao }}</b-card-text>
-                <grupo-tags :tags="grupo.tags" @tagClicked="tagAdd"  />
+                <grupo-tags :tags="grupo.tags" @tagClicked="tagAdd" />
             </b-card>
         </div>
 
-        <br/>
-        <b-pagination align="center" variant="success" v-model="currentPage"
+        <br />
+        <b-pagination v-model="currentPage" align="center"
             :total-rows="filteredGrupos.length" :per-page="perPage" />
-
     </main>
 </template>
-
 <script>
 export default {
     async asyncData({ store }) {
@@ -47,11 +44,11 @@ export default {
         await store.dispatch('grupo/fetchTags')
         return {
             selectedTags: [],
-            search: "",
+            search: '',
             modalGrupo: null,
             currentPage: 1,
             perPage: 5,
-            defaultImg: "/vue-logo.png" ,
+            defaultImg: '/vue-logo.png',
         }
     },
     computed: {
@@ -65,40 +62,37 @@ export default {
             return this.filterByTags(this.filterBySearch(this.grupos))
         },
         displayedGrupos() {
-            const first = (this.currentPage-1) * this.perPage
+            const first = (this.currentPage - 1) * this.perPage
             const last = first + this.perPage
             return this.filteredGrupos.slice(first, last)
-        }
+        },
     },
     methods: {
         tagAdd(tag) {
-            console.log(this.$auth.user)
-            console.log(this.$auth)
-            if (! this.selectedTags.includes(tag))
-                this.selectedTags.push(tag)
+            if (!this.selectedTags.includes(tag)) this.selectedTags.push(tag)
         },
         filterByTags(grupos) {
             let selected = this.selectedTags
             if (selected.length == 0) return grupos
-            return grupos.filter(g => g.tags.some(t => selected.includes(t)));
+            return grupos.filter(g => g.tags.some(t => selected.includes(t)))
         },
         filterBySearch(grupos) {
             let search = this.search.toLowerCase()
-            if (search == "") return grupos
+            if (search == '') return grupos
             return grupos.filter(g => {
                 const t = g.titulo.toLowerCase()
                 const d = g.descricao.toLowerCase()
                 return t.includes(search) || d.includes(search)
-            });
+            })
         },
         viewGrupo(grupo) {
             this.modalGrupo = grupo
             this.$refs['modal'].show()
-        }
+        },
     },
 }
 </script>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 @media (max-width: 1000px) {
     .card {
@@ -122,5 +116,3 @@ export default {
     border-radius: 6px;
 }
 </style>
-
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
