@@ -28,7 +28,10 @@
                     <b-card-title>{{ grupo.titulo }}</b-card-title>
                 </b-link>
                 <b-card-text>{{ grupo.descricao }}</b-card-text>
-                <grupo-tags :tags="grupo.tags" @tagClicked="tagAdd" />
+                <div class="tag-info">
+                    <grupo-tags :tags="grupo.tags" @tagClicked="tagAdd" />
+                    <grupo-votes :grupo="grupo" />
+                </div>
             </b-card>
         </div>
 
@@ -41,6 +44,7 @@
 export default {
     async asyncData({ store }) {
         await store.dispatch('grupo/fetchGrupos')
+        await store.dispatch('grupo/fetchUserVotes')
         await store.dispatch('grupo/fetchTags')
         return {
             selectedTags: [],
@@ -114,5 +118,11 @@ export default {
 .card-img-left {
     border: 1px solid black;
     border-radius: 6px;
+}
+
+.tag-info {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
 }
 </style>
