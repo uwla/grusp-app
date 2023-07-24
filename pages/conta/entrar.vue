@@ -4,6 +4,12 @@
 
         <message-errors :errors="errors" @hide="hideErrors()" />
 
+        <div class="text-right small">
+            <b-link href="/conta/esqueci-senha">
+                Esqueceu sua senha?
+            </b-link>
+        </div>
+
         <b-form class="form" @submit.prevent="login()">
             <b-form-group label="Email" label-for="email">
                 <b-form-input type="text" v-model="email" id="email" />
@@ -47,16 +53,16 @@ export default {
             this.errors = []
             const { password, email } = this
             const auth = this.$auth
+
             auth.loginWith('local', {
                 data: { password, email },
+            }).then(response => {
+                auth.setUser(response.data.user)
+            }).catch(exception => {
+                this.errors = parseResponseErrors(exception.response)
+            }).finally(() => {
+                this.formBusy = false
             })
-                .then(response => {
-                    auth.setUser(response.data.user)
-                })
-                .catch(exception => {
-                    this.errors = parseResponseErrors(exception.response)
-                })
-                .finally(() => (this.formBusy = false))
         },
 
         hideErrors() {
