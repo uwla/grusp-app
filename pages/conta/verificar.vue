@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <main class="w400">
         <big>
             Your email is verified? {{ verified }}
         </big>

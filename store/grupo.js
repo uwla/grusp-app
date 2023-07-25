@@ -124,7 +124,7 @@ export const actions = {
     },
     async fetchUserVotes({ commit }) {
         if (this.$auth.loggedIn) {
-            const data = (await this.$axios.get('/vote')).data
+            const data = (await this.$axios.get('/account/votes')).data
             commit('setVotes', data)
         }
     },
@@ -137,13 +137,13 @@ export const actions = {
         let data = { ...payload }
         let { id } = data
         data._method = 'PUT'
-        data = (await this.$axios.post(`vote/${id}`, data)).data
+        data = (await this.$axios.post(`/vote/${id}`, data)).data
         commit('updateVote', data)
     },
     async deleteVote({ commit }, payload) {
         let data = { ...payload }
         let { id } = data
-        await this.$axios.delete(`vote/${id}`, { data })
+        await this.$axios.delete(`/vote/${id}`, { data })
         commit('deleteVote', data)
     },
 }

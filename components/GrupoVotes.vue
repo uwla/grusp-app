@@ -1,5 +1,5 @@
 <template>
-    <span class="tag-votes">
+    <span class="tag-votes" :class="{ 'logged': loggedIn }">
         <span :class="{ 'bold': thisVote.vote === 1 }" @click="vote(1)">
             <b-icon icon="hand-thumbs-up" />
             {{ grupo.upvotes }}
@@ -11,12 +11,16 @@
     </span>
 </template>
 <style>
-.tag-votes .bold { font-weight: 900; color: blue }
-.tag-votes span { cursor: pointer }
+.tag-votes.logged .bold { font-weight: 900; color: rgb(0, 0, 255) }
+.tag-votes.logged span { cursor: pointer }
+.tag-votes.logged span:hover { color: rgb(0, 255, 0); }
 </style>
 <script>
 export default {
     computed: {
+        loggedIn() {
+            return this.$auth.loggedIn
+        },
         userVotes() {
             return this.$store.state.grupo.userVotes
         },
@@ -32,7 +36,7 @@ export default {
     methods: {
         vote(vote) {
             // guests cant vote
-            if (! this.$auth.loggedIn) return
+            if (! this.loggedIn) return
 
             const data = {
                 vote: vote,
