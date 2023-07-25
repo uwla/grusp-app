@@ -66,6 +66,12 @@
             <b>Tags:</b>
             <grupo-tags class="mt-2" :tags="grupo.tags" />
         </div>
+
+        <hr>
+        <div v-if="grupo.comments.length > 0">
+            <b>Comentários:</b>
+            <grupo-comments class="mt-2" :comments="grupo.comments"/>
+        </div>
     </div>
 </template>
 <script>

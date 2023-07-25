@@ -144,22 +144,8 @@ export default {
 
         // actually submit the form
         submitForm() {
-            const {
-                contato,
-                descricao,
-                horario,
-                images,
-                imagesToDel,
-                img,
-                links,
-                lugar,
-                mensalidade,
-                method,
-                publico,
-                tags,
-                titulo,
-                url,
-            } = this
+            const { contato, descricao, horario, images, imagesToDel, img, links,
+                lugar, mensalidade, method, publico, tags, titulo, url, } = this
             const formData = new FormData()
 
             // append string fields
