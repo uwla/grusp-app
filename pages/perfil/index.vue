@@ -1,5 +1,5 @@
 <template>
-    <main class="w500">
+    <main class="w600">
         <h1>Bem vindo</h1>
         <div class="profile-info">
             <b>Nome</b> : {{ name }} <br />

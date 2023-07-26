@@ -2,7 +2,8 @@ export function state() {
     return {
         tags: [],
         grupos: [],
-        userVotes: [], // votes of the authenticated user
+        userVotes: [], // votes made by the authenticated user
+        userComments: [] // comments made by the authenticated user
     }
 }
 
@@ -45,6 +46,9 @@ export const mutations = {
     },
     setVotes(state, votes) {
         state.userVotes = votes
+    },
+    setComments(state, comments) {
+        state.userComments = comments
     },
     addVote(state, vote) {
         state.userVotes.push(vote)
@@ -109,6 +113,22 @@ export const mutations = {
         // update the array
         state.grupos.splice(ind, 1, grupo)
     },
+    addComment(state, comment) {
+        const { grupo_id } = comment
+        let ind = state.grupos.findIndex(g => g.id === grupo_id)
+        let grupo = { ... state.grupos[ind] }
+        grupo.comments.push(comment)
+        state.grupos.splice(ind, 1, grupo)
+        state.userComments.push(comment)
+    },
+    delComment(state, comment) {
+        const { grupo_id } = comment
+        let ind = state.grupos.findIndex(g => g.id === grupo_id)
+        let grupo = { ... state.grupos[ind] }
+        let c_ind = grupo.comments.findIndex(c => c.id == comment.id)
+        grupo.comments.splice(c_ind, 1)
+        state.grupos.splice(ind, 1, grupo)
+    }
 }
 
 export const actions = {
@@ -128,6 +148,12 @@ export const actions = {
             commit('setVotes', data)
         }
     },
+    async fetchUserComments({ commit }) {
+        if (this.$auth.loggedIn) {
+            const data = (await this.$axios.get('/account/comments')).data
+            commit('setComments', data)
+        }
+    },
     async addVote({ commit }, payload) {
         let data = { ...payload }
         data = (await this.$axios.post('/vote', data)).data
@@ -145,5 +171,16 @@ export const actions = {
         let { id } = data
         await this.$axios.delete(`/vote/${id}`, { data })
         commit('deleteVote', data)
+    },
+    async addComment({ commit }, payload) {
+        let data = { ...payload }
+        data = (await this.$axios.post('/comment', data)).data
+        commit('addComment', data)
+    },
+    async deleteComment({ commit }, payload) {
+        let data = { ...payload }
+        let { id } = data
+        data = (await this.$axios.delete(`/comment/${id}`, data)).data
+        commit('delComment', data)
     },
 }

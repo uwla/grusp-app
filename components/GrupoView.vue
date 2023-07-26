@@ -70,7 +70,10 @@
         <hr>
         <div v-if="grupo.comments.length > 0">
             <b>Comentários:</b>
-            <grupo-comments class="mt-2" :comments="grupo.comments"/>
+            <grupo-comments class="mt-2" v-bind="{
+                grupoComments: grupo.comments,
+                grupoId: grupo.id
+            }"/>
         </div>
     </div>
 </template>

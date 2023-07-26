@@ -44,8 +44,9 @@
 export default {
     async asyncData({ store }) {
         await store.dispatch('grupo/fetchGrupos')
-        await store.dispatch('grupo/fetchUserVotes')
         await store.dispatch('grupo/fetchTags')
+        await store.dispatch('grupo/fetchUserVotes')
+        await store.dispatch('grupo/fetchUserComments')
         return {
             selectedTags: [],
             search: '',

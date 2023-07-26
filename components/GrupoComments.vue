@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="comments">
         <div class="comment" v-for="comment, i in comments" :key="i">
             <span class="comment-author">
                 {{ comment.author }}
@@ -7,17 +7,72 @@
             <span class="comment-date">
                 {{ comment.updated_at }}
             </span>
+            <br>
             <span class="comment-content">
-                {{  comment.comment }}
+                {{ comment.comment }}
             </span>
+            <span class="comment-delete" v-if="comment.deletable" @click="del(comment)">
+                <b-icon icon="trash" />
+            </span>
+        </div>
+        <div class="new-comment" v-if="loggedIn">
+            <b-form @submit.prevent="addComment()">
+                <b-form-group label="Escreva um comentário">
+                    <b-form-textarea v-model="comment" rows="2" minlength="3"
+                    required/>
+                </b-form-group>
+                <b-button class="float-right" variant="success" type="submit">
+                    COMENTAR
+                </b-button>
+            </b-form>
         </div>
     </div>
 </template>
 <script>
 export default {
-    props: {
-        comments: Array
+    computed: {
+        loggedIn() {
+            return this.$auth.loggedIn
+        },
+        comments() {
+            return this.grupoComments.map(comment => {
+                if (this.userComments.some(c => c.id == comment.id))
+                    comment.deletable = true
+                return comment
+            })
+        },
+        userComments() {
+            return this.$store.state.grupo.userComments
+        },
     },
+    data() {
+       return {
+            comment: "" // new comment
+       }
+    },
+    methods: {
+        addComment() {
+            this.$store.dispatch('grupo/addComment', {
+                grupo_id: this.grupoId,
+                comment: this.comment,
+            }).then(() => {
+                this.comment = ""
+            })
+        },
+        del(comment) {
+            this.$store.dispatch('grupo/deleteComment', comment)
+        }
+    },
+    props: {
+        grupoComments: Array,
+        grupoId: Number,
+    },
+    watch: {
+        grupo: {
+            deep: true,
+            immediate: false
+        }
+    }
 }
 </script>
 <style>
@@ -27,16 +82,32 @@ export default {
     margin-bottom: 10px;
     padding: 8px;
 }
+
 .comment-author {
     font-weight: 650;
 }
+
 .comment-date {
     display: block;
     float: right;
     font-size: 80%;
 }
+
 .comment-content {
-    display: block;
     line-height: 1;
+}
+
+.comment-delete {
+    display: block;
+    float: right;
+}
+
+.comment-delete:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.new-comment {
+    font-size: 95%;
 }
 </style>
