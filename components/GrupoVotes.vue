@@ -11,6 +11,7 @@
     </span>
 </template>
 <style>
+.tag-votes { white-space: nowrap; }
 .tag-votes.logged .bold { font-weight: 900; color: rgb(0, 0, 255) }
 .tag-votes.logged span { cursor: pointer }
 .tag-votes.logged span:hover { color: rgb(0, 255, 0); }
