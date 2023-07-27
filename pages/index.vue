@@ -24,6 +24,7 @@
             <br />
             <br />
             <b-card :img-src="grupo.img || defaultImg" img-left>
+                <grupo-bookmark :grupoId="grupo.id" />
                 <b-link @click="viewGrupo(grupo)" href="#">
                     <b-card-title>{{ grupo.titulo }}</b-card-title>
                 </b-link>
@@ -47,6 +48,7 @@ export default {
         await store.dispatch('grupo/fetchTags')
         await store.dispatch('grupo/fetchUserVotes')
         await store.dispatch('grupo/fetchUserComments')
+        await store.dispatch('grupo/fetchUserBookmarks')
         return {
             selectedTags: [],
             search: '',
@@ -126,4 +128,6 @@ export default {
     flex-wrap: nowrap;
     justify-content: space-between;
 }
+
+
 </style>

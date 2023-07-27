@@ -3,7 +3,8 @@ export function state() {
         tags: [],
         grupos: [],
         userVotes: [], // votes made by the authenticated user
-        userComments: [] // comments made by the authenticated user
+        userComments: [], // comments made by the authenticated user
+        userBookmarks: [], // grupos bookmarked by the authenticated user
     }
 }
 
@@ -49,6 +50,9 @@ export const mutations = {
     },
     setComments(state, comments) {
         state.userComments = comments
+    },
+    setBookmarks(state, bookmarks) {
+        state.userBookmarks = bookmarks
     },
     addVote(state, vote) {
         state.userVotes.push(vote)
@@ -128,6 +132,12 @@ export const mutations = {
         let c_ind = grupo.comments.findIndex(c => c.id == comment.id)
         grupo.comments.splice(c_ind, 1)
         state.grupos.splice(ind, 1, grupo)
+    },
+    addBookmark(state, bookmark) {
+        state.userBookmarks.push(bookmark)
+    },
+    delBookmark(state, bookmark) {
+        state.userBookmarks = state.userBookmarks.filter(b => b !== bookmark)
     }
 }
 
@@ -152,6 +162,12 @@ export const actions = {
         if (this.$auth.loggedIn) {
             const data = (await this.$axios.get('/account/comments')).data
             commit('setComments', data)
+        }
+    },
+    async fetchUserBookmarks({ commit }) {
+        if (this.$auth.loggedIn) {
+            const data = (await this.$axios.get('/account/bookmarks')).data
+            commit('setBookmarks', data)
         }
     },
     async addVote({ commit }, payload) {
@@ -182,5 +198,13 @@ export const actions = {
         let { id } = data
         data = (await this.$axios.delete(`/comment/${id}`, data)).data
         commit('delComment', data)
+    },
+    async addBookmark({ commit }, grupo_id) {
+        await this.$axios.post(`/bookmark/${grupo_id}`)
+        commit('addBookmark', grupo_id)
+    },
+    async deleteBookmark({ commit }, grupo_id) {
+        await this.$axios.delete(`/bookmark/${grupo_id}`)
+        commit('delBookmark', grupo_id)
     },
 }
