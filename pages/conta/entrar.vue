@@ -22,6 +22,8 @@
     </main>
 </template>
 <script>
+import { parseResponseErrors } from '../../utils'
+
 export default {
     middleware: 'auth',
     auth: 'guest',
