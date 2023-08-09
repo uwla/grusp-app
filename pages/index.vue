@@ -17,8 +17,8 @@
 
         <p>Mostrando {{ filteredGrupos.length }} de {{ grupos.length }} grupos</p>
 
-        <b-pagination v-model="currentPage" align="center"
-            :total-rows="filteredGrupos.length" :per-page="perPage" />
+        <b-pagination v-model="currentPage" v-if="!empty"
+            :total-rows="filteredGrupos.length" :per-page="perPage" align="center"/>
 
         <div v-for="(grupo, i) in displayedGrupos" :key="i">
             <br />
@@ -37,8 +37,12 @@
         </div>
 
         <br />
-        <b-pagination v-model="currentPage" align="center"
-            :total-rows="filteredGrupos.length" :per-page="perPage" />
+        <b-pagination v-model="currentPage" v-if="!empty"
+            :total-rows="filteredGrupos.length" :per-page="perPage" align="center"/>
+
+        <p v-if="empty">
+            Nenhum grupo encontrado :'(
+        </p>
     </main>
 </template>
 <script>
@@ -67,6 +71,9 @@ export default {
         },
         filteredGrupos() {
             return this.filterByTags(this.filterBySearch(this.grupos))
+        },
+        empty() {
+            return this.filteredGrupos.length === 0
         },
         displayedGrupos() {
             const first = (this.currentPage - 1) * this.perPage
