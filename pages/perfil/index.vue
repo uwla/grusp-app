@@ -1,9 +1,9 @@
 <template>
     <main class="w600">
-        <h1>Bem vindo</h1>
+        <h1>BEM VINDO</h1>
         <div class="profile-info">
-            <b>Nome</b> : {{ name }} <br />
-            <b>Email</b> : {{ email }} <br />
+            <b>Nome</b>: {{ name }}<br />
+            <b>Email</b>: {{ email }}<br />
         </div>
         <b-button variant="primary" href="/perfil/editar">
             EDITAR PERFIL

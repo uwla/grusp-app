@@ -1,5 +1,5 @@
 <template>
-    <b-alert :show="show" variant="danger" dismissible @dismissed="hide()">
+    <b-alert :show="show" class="small" variant="danger" dismissible @dismissed="hide()">
         <ul>
             <li v-for="error,i in errors" :key="i">
                 {{ error }}
