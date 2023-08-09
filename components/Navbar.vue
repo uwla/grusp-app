@@ -15,7 +15,7 @@
                 <b-dropdown-item v-if="isUser" href="/perfil/">
                     Meu perfil
                 </b-dropdown-item>
-                <b-dropdown-item v-if="isUser" href="/conta/sair">
+                <b-dropdown-item v-if="isUser" href="/conta/sair" @click.prevent="logout()">
                     Sair
                 </b-dropdown-item>
             </b-nav-item-dropdown>
@@ -31,6 +31,11 @@ export default {
         isUser() {
             return this.$auth.loggedIn
         },
+    },
+    methods: {
+        logout() {
+            this.$auth.logout()
+        }
     },
 }
 </script>
