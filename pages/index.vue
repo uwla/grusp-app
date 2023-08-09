@@ -20,12 +20,10 @@
         <b-pagination v-model="currentPage" v-if="!empty"
             :total-rows="filteredGrupos.length" :per-page="perPage" align="center"/>
 
-        <div v-for="(grupo, i) in displayedGrupos" :key="i">
-            <br />
-            <br />
+        <div v-for="(grupo, i) in displayedGrupos" :key="i" class="grupo-card">
             <b-card :img-src="grupo.img || defaultImg" img-left>
                 <grupo-bookmark :grupoId="grupo.id" />
-                <b-link @click="viewGrupo(grupo)" href="#">
+                <b-link @click.prevent="viewGrupo(grupo)" :href="`/grupos/${grupo.id}`">
                     <b-card-title>{{ grupo.titulo }}</b-card-title>
                 </b-link>
                 <b-card-text>{{ grupo.descricao }}</b-card-text>
@@ -36,7 +34,6 @@
             </b-card>
         </div>
 
-        <br />
         <b-pagination v-model="currentPage" v-if="!empty"
             :total-rows="filteredGrupos.length" :per-page="perPage" align="center"/>
 
@@ -125,6 +122,11 @@ export default {
     }
 }
 
+.grupo-card {
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+
 .card-img-left {
     border: 1px solid black;
     border-radius: 6px;
@@ -135,6 +137,4 @@ export default {
     flex-wrap: nowrap;
     justify-content: space-between;
 }
-
-
 </style>
