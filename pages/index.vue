@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <main id="main">
         <h1>GRUSP</h1>
 
         <form>
@@ -16,6 +16,12 @@
         </b-modal>
 
         <p>Mostrando {{ filteredGrupos.length }} de {{ grupos.length }} grupos</p>
+
+        <div v-if="loggedIn">
+            <b-form-checkbox v-model="showBookmarkedOnly">
+                Mostrar apenas grupos favoritados.
+            </b-form-checkbox>
+        </div>
 
         <b-pagination v-model="currentPage" v-if="!empty"
             :total-rows="filteredGrupos.length" :per-page="perPage" align="center"/>
@@ -57,9 +63,13 @@ export default {
             currentPage: 1,
             perPage: 5,
             defaultImg: '/vue-logo.png',
+            showBookmarkedOnly: false,
         }
     },
     computed: {
+        bookmarks() {
+            return this.$store.state.grupo.userBookmarks
+        },
         params() {
             return this.$store.getters['grupo/multiselectParams']
         },
@@ -67,7 +77,7 @@ export default {
             return this.$store.state.grupo.grupos
         },
         filteredGrupos() {
-            return this.filterByTags(this.filterBySearch(this.grupos))
+            return this.filterByTags(this.filterBySearch(this.filterByBookmarks(this.grupos)))
         },
         empty() {
             return this.filteredGrupos.length === 0
@@ -77,10 +87,18 @@ export default {
             const last = first + this.perPage
             return this.filteredGrupos.slice(first, last)
         },
+        loggedIn() {
+            return this.$auth.loggedIn
+        }
     },
     methods: {
         tagAdd(tag) {
             if (!this.selectedTags.includes(tag)) this.selectedTags.push(tag)
+        },
+        filterByBookmarks(grupos) {
+            if (!this.showBookmarkedOnly)
+                return grupos
+            return grupos.filter(g => this.bookmarks.includes(g.id))
         },
         filterByTags(grupos) {
             let selected = this.selectedTags
@@ -120,6 +138,11 @@ export default {
         width: 280px;
         margin: 1em;
     }
+}
+
+#main .pagination {
+    margin-top: 3em !important;
+    margin-bottom: 3em !important;
 }
 
 .grupo-card {
