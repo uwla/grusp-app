@@ -19,6 +19,12 @@
             </b-form-group>
             <b-button block variant="success" type="submit">ENTRAR</b-button>
         </b-form>
+
+        <br>
+        <b-alert class="small" variant="info" :show="showVerifyMessage">
+            Se sua conta não foi verificada, solicite um link de verificação de
+            conta <b-link href="/conta/link-verificacao">clicando aqui</b-link>
+        </b-alert>
     </main>
 </template>
 <script>
@@ -32,6 +38,15 @@ export default {
         showErrors() {
             return this.errors.length > 0
         },
+        showVerifyMessage() {
+            for (let error of this.errors) {
+                if (error.includes('verificar')
+                    || error.includes('verificada')
+                    || error.includes('verificado'))
+                    return true
+            }
+            return false
+        }
     },
 
     data() {
