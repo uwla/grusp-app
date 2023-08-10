@@ -178,9 +178,11 @@ export default {
                 .then(res => {
                     this.hideErrors()
                     this.showSuccess = true
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 })
                 .catch(e => {
                     this.errors = parseResponseErrors(e.response)
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 })
         },
 
