@@ -3,7 +3,7 @@
         <h1>REGISTRAR CONTA</h1>
 
         <message-success :show="showSuccess" @hide="hideSuccess()">
-            {{ message }}
+            Conta criada! Um link de confirmação de conta foi enviado para seu email.
         </message-success>
 
         <message-errors :errors="errors" @hide="hideErrors()" />
@@ -42,7 +42,6 @@ export default {
             },
             errors: [],
             showSuccess: false,
-            message: 'Conta criada com sucesso!',
             formBusy: false,
         }
         return data
