@@ -59,11 +59,6 @@ export default {
     },
 
     methods: {
-        clearForm() {
-            this.password = ''
-            this.email = ''
-        },
-
         login() {
             if (this.formBusy) return
             this.formBusy = true
