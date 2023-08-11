@@ -29,7 +29,7 @@
         <div v-for="(grupo, i) in displayedGrupos" :key="i" class="grupo-card">
             <b-card :img-src="grupo.img || defaultImg" img-left>
                 <grupo-bookmark :grupoId="grupo.id" />
-                <b-link @click.prevent="viewGrupo(grupo)" :href="`/grupos/${grupo.id}`">
+                <b-link @click.prevent="viewGrupo(grupo)" :href="`/grupo/${grupo.id}`">
                     <b-card-title>{{ grupo.titulo }}</b-card-title>
                 </b-link>
                 <b-card-text>{{ grupo.descricao }}</b-card-text>
