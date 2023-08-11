@@ -43,7 +43,7 @@
         <b-pagination v-model="currentPage" v-if="!empty"
             :total-rows="filteredGrupos.length" :per-page="perPage" align="center"/>
 
-        <p v-if="empty">
+        <p class="mt-3 mb-3" v-if="empty">
             Nenhum grupo encontrado :'(
         </p>
     </main>
