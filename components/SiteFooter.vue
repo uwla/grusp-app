@@ -1,7 +1,8 @@
 <template>
     <footer id="footer">
         <a href="/">Grupos</a>
-        <a href="/sobre">sobre</a>
+        <a href="/sobre">Sobre</a>
+        <a href="/contato">Contato</a>
     </footer>
 </template>
 <style>
