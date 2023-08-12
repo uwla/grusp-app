@@ -68,7 +68,7 @@
         </div>
 
         <hr>
-        <div v-if="grupo.comments.length > 0">
+        <div>
             <b>Comentários:</b>
             <grupo-comments class="mt-2" v-bind="{
                 grupoComments: grupo.comments,
