@@ -33,6 +33,7 @@ export const getters = {
             multiple: true,
             options: options,
             placeholder: 'selecionar tag',
+            'internal-search': false,
             'show-labels': false,
         }
     },

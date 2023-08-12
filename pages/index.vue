@@ -7,7 +7,10 @@
                 <b-form-input v-model="search" />
             </b-form-group>
             <b-form-group label="Filtrar por tags">
-                <multiselect v-bind="params" v-model="selectedTags" />
+                <multiselect
+                    v-bind="params"
+                    v-model="selectedTags"
+                    @search-change="searchTags" />
             </b-form-group>
         </form>
 
@@ -56,6 +59,9 @@ export default {
         await store.dispatch('grupo/fetchUserVotes')
         await store.dispatch('grupo/fetchUserComments')
         await store.dispatch('grupo/fetchUserBookmarks')
+
+        const params = store.getters['grupo/multiselectParams']
+
         return {
             selectedTags: [],
             search: '',
@@ -64,14 +70,13 @@ export default {
             perPage: 5,
             defaultImg: '/vue-logo.png',
             showBookmarkedOnly: false,
+            params: params,
+            tagOptions: params.options,
         }
     },
     computed: {
         bookmarks() {
             return this.$store.state.grupo.userBookmarks
-        },
-        params() {
-            return this.$store.getters['grupo/multiselectParams']
         },
         grupos() {
             return this.$store.state.grupo.grupos
@@ -118,6 +123,34 @@ export default {
             this.modalGrupo = grupo
             this.$refs['modal'].show()
         },
+        searchTags(search, id) {
+            if (typeof search !== 'string' || search === '')
+                this.params.options = this.tagOptions
+            else {
+                search = search.toLowerCase()
+                let options = [... this.tagOptions]
+                let newOptions = []
+                for (let option of options)
+                {
+                    let label = option.label
+
+                    // push all options
+                    if (label.includes(search))
+                    {
+                        newOptions.push(option)
+                        continue
+                    }
+
+                    // push just values which matched
+                    let values = option.values.filter(v => v.includes(search))
+                    if (values.length > 0)
+                    {
+                        newOptions.push({ label, values })
+                    }
+                }
+                this.params.options = newOptions
+            }
+        }
     },
 }
 </script>
