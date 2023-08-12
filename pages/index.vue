@@ -8,9 +8,9 @@
             </b-form-group>
             <b-form-group label="Filtrar por tags">
                 <multiselect
-                    v-bind="params"
+                    v-bind="mParams"
                     v-model="selectedTags"
-                    @search-change="searchTags" />
+                    @search-change="searchTagsInFilter" />
             </b-form-group>
         </form>
 
@@ -70,8 +70,10 @@ export default {
             perPage: 5,
             defaultImg: '/vue-logo.png',
             showBookmarkedOnly: false,
-            params: params,
-            tagOptions: params.options,
+
+            // multiselect plugin
+            mParams: params,
+            mOptions: params.options,
         }
     },
     computed: {
@@ -94,6 +96,9 @@ export default {
         },
         loggedIn() {
             return this.$auth.loggedIn
+        },
+        tagCategory() {
+            return this.$store.getters['grupo/tagCategory']
         }
     },
     methods: {
@@ -116,20 +121,30 @@ export default {
             return grupos.filter(g => {
                 const d = g.descricao.toLowerCase()
                 const t = g.titulo.toLowerCase()
-                const tg = g.tags.map(t => t.toLowerCase())
-                return t.includes(search) || d.includes(search) || tg.some(t => t.includes(search))
+                return t.includes(search) || d.includes(search) || this.searchTextInTags(search, g.tags)
             })
         },
         viewGrupo(grupo) {
             this.modalGrupo = grupo
             this.$refs['modal'].show()
         },
-        searchTags(search, id) {
+        searchTextInTags(search, tags) {
+            let categories
+
+            categories = tags.map(t => (this.tagCategory[t] || '').toLowerCase())
+            tags = tags.map(t => t.toLowerCase())
+
+            // we search both the tag itself and its category
+            return tags.some(t => t.includes(search)) ||
+                   categories.some(c => c.includes(search))
+        },
+        // this controls which tags are visible in the Tag filter
+        searchTagsInFilter(search, id) {
             if (typeof search !== 'string' || search === '')
-                this.params.options = this.tagOptions
+                this.mParams.options = this.mOptions
             else {
                 search = search.toLowerCase()
-                let options = [... this.tagOptions]
+                let options = [... this.mOptions]
                 let newOptions = []
                 for (let option of options)
                 {
@@ -149,7 +164,7 @@ export default {
                         newOptions.push({ label, values })
                     }
                 }
-                this.params.options = newOptions
+                this.mParams.options = newOptions
             }
         }
     },

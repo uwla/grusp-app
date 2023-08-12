@@ -9,13 +9,27 @@ export function state() {
 }
 
 export const getters = {
+    // Map: tag -> category
+    tagCategory(state) {
+        let map = {}
+        for (let category in state.tags)
+        {
+            for (let tag of state.tags[category])
+            {
+                map[tag] = category
+            }
+        }
+        return map
+    },
+
     /* MULTISELECT PLUGIN */
 
     // options used by multiselect plugin
     multiselectOptions(state) {
         const tags = state.tags
         const options = []
-        for (let t in tags) options.push({ label: t, values: tags[t] })
+        for (let t in tags)
+            options.push({ label: t, values: tags[t] })
         return options
     },
 
