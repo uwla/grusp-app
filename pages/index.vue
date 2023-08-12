@@ -103,7 +103,7 @@ export default {
         filterByTags(grupos) {
             let selected = this.selectedTags
             if (selected.length == 0) return grupos
-            return grupos.filter(g => g.tags.some(t => selected.includes(t)))
+            return grupos.filter(g => selected.every(t => g.tags.includes(t)))
         },
         filterBySearch(grupos) {
             let search = this.search.toLowerCase()
