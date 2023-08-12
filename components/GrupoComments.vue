@@ -29,6 +29,8 @@
     </div>
 </template>
 <script>
+import Swal from 'sweetalert2'
+
 export default {
     computed: {
         loggedIn() {
@@ -60,7 +62,19 @@ export default {
             })
         },
         del(comment) {
-            this.$store.dispatch('grupo/deleteComment', comment)
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: 'Você está prestes a deletar o comentário.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, deletar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.$store.dispatch('grupo/deleteComment', comment)
+                }
+            })
         }
     },
     props: {

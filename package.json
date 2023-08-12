@@ -16,6 +16,7 @@
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.25.3",
     "nuxt": "^2.15.8",
+    "sweetalert2": "^11.7.3",
     "vue": "^2.7.10",
     "vue-anka-cropper": "^1.1.0",
     "vue-multiselect": "^2.1.7",
