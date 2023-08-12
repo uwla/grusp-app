@@ -174,7 +174,10 @@ export default {
 <style>
 @media (max-width: 1000px) {
     .card {
-        flex-wrap: wrap;
+        flex-direction: column !important;
+    }
+    .card-title {
+        text-align: center !important;
     }
     .card-img-left {
         margin: 1em auto 0 auto;
@@ -197,6 +200,10 @@ export default {
 .grupo-card {
     margin-top: 3em;
     margin-bottom: 3em;
+}
+
+.grupo-card p {
+    white-space: pre-wrap;
 }
 
 .card-img-left {

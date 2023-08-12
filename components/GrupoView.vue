@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="grupo">
         <!-- title -->
         <h1>{{ grupo.titulo }}</h1>
 
@@ -88,5 +88,8 @@ export default {
 .carousel-item img {
     height: 400px !important;
     width: auto !important;
+}
+.grupo p {
+    white-space: pre-wrap;
 }
 </style>
