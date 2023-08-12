@@ -15,9 +15,12 @@
                 <b-icon icon="trash" />
             </span>
         </div>
+        <p v-if="comments.length == 0">
+            <i>Nenhum comentário por enquanto.</i>
+        </p>
         <div class="new-comment" v-if="loggedIn">
             <b-form @submit.prevent="addComment()">
-                <b-form-group label="Escreva um comentário">
+                <b-form-group label="Escreva um comentário:">
                     <b-form-textarea v-model="comment" rows="2" minlength="3"
                     required/>
                 </b-form-group>
