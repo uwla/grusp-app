@@ -114,9 +114,10 @@ export default {
             let search = this.search.toLowerCase()
             if (search == '') return grupos
             return grupos.filter(g => {
-                const t = g.titulo.toLowerCase()
                 const d = g.descricao.toLowerCase()
-                return t.includes(search) || d.includes(search)
+                const t = g.titulo.toLowerCase()
+                const tg = g.tags.map(t => t.toLowerCase())
+                return t.includes(search) || d.includes(search) || tg.some(t => t.includes(search))
             })
         },
         viewGrupo(grupo) {
