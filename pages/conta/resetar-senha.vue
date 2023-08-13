@@ -12,10 +12,10 @@
 
         <b-form class="form" @submit.prevent="resetPassword()">
             <b-form-group label="Nova senha" label-for="password">
-                <b-form-input type="password" v-model="f.password" id="password" />
+                <b-form-input type="password" v-model="f.password" id="password" min="8" required />
             </b-form-group>
             <b-form-group label="Confirmação de senha" label-for="password_confirmed">
-                <b-form-input type="password" v-model="f.password_confirmation" id="password_confirmed" />
+                <b-form-input type="password" v-model="f.password_confirmation" id="password_confirmed" min="8" required />
             </b-form-group>
             <b-button block variant="success" type="submit">
                 ENVIAR

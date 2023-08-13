@@ -21,8 +21,7 @@
         <div class="new-comment" v-if="loggedIn">
             <b-form @submit.prevent="addComment()">
                 <b-form-group label="Escreva um comentário:">
-                    <b-form-textarea v-model="comment" rows="2" minlength="3"
-                    required/>
+                    <b-form-textarea v-model="comment" rows="2" minlength="3" required/>
                 </b-form-group>
                 <b-button class="float-right" variant="success" type="submit">
                     COMENTAR

@@ -10,10 +10,10 @@
 
         <b-form class="form" @submit.prevent="requestVerificationLink()">
             <b-form-group label="Email" label-for="email">
-                <b-form-input type="email" v-model="data.email" id="email" />
+                <b-form-input type="email" v-model="data.email" id="email" required />
             </b-form-group>
             <b-form-group label="Confirmação de email" label-for="email_confirmation">
-                <b-form-input type="email" v-model="data.email_confirmation" id="email_confirmation" />
+                <b-form-input type="email" v-model="data.email_confirmation" id="email_confirmation" required />
             </b-form-group>
             <b-button block variant="success" type="submit">
                 ENVIAR

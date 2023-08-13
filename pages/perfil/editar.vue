@@ -14,19 +14,19 @@
 
         <b-form class="form" @submit.prevent="updateProfile()">
             <b-form-group label="Nome" label-for="name">
-                <b-form-input type="text" v-model="name" id="name" />
+                <b-form-input type="text" v-model="name" id="name" min="3" required />
             </b-form-group>
             <b-form-group label="Email" label-for="email">
-                <b-form-input type="text" v-model="email" id="email" />
+                <b-form-input type="text" v-model="email" id="email" required />
             </b-form-group>
             <b-form-group label="Senha atual" label-for="password_current">
-                <b-form-input type="password" v-model="password_current" id="password_current" />
+                <b-form-input type="password" v-model="password_current" id="password_current" min="8" required />
             </b-form-group>
             <b-form-group label="Senha nova" label-for="password">
-                <b-form-input type="password" v-model="password" id="password" />
+                <b-form-input type="password" v-model="password" id="password" min="8" />
             </b-form-group>
             <b-form-group label="Confirmação da senha nova" label-for="password_confirmation">
-                <b-form-input type="password" v-model="password_confirmation" id="password_confirmation" />
+                <b-form-input type="password" v-model="password_confirmation" id="password_confirmation" min="8" />
             </b-form-group>
             <b-button block variant="success" type="submit">ATUALIZAR</b-button>
         </b-form>

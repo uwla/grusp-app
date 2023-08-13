@@ -15,7 +15,7 @@
 
         <b-form class="form" @submit.prevent="requestResetLink()">
             <b-form-group label="Email" label-for="email">
-                <b-form-input type="text" v-model="email" id="email" />
+                <b-form-input type="email" v-model="email" id="email" required />
             </b-form-group>
             <b-button block variant="success" type="submit">
                 ENVIAR

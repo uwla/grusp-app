@@ -12,12 +12,14 @@
 
         <b-form class="form" @submit.prevent="login()">
             <b-form-group label="Email" label-for="email">
-                <b-form-input type="text" v-model="email" id="email" />
+                <b-form-input type="email" v-model="email" id="email" required />
             </b-form-group>
             <b-form-group label="Senha" label-for="password">
-                <b-form-input type="password" v-model="password" id="password" />
+                <b-form-input type="password" v-model="password" id="password" required />
             </b-form-group>
-            <b-button block variant="success" type="submit">ENTRAR</b-button>
+            <b-button block variant="success" type="submit">
+                ENTRAR
+            </b-button>
         </b-form>
 
         <br>

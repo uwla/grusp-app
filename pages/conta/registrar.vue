@@ -10,17 +10,16 @@
 
         <form class="form" @submit.prevent="register()">
             <b-form-group label="Nome" label-for="name">
-                <b-form-input type="text" v-model="f.name" id="name" />
+                <b-form-input type="text" v-model="f.name" id="name" min="3" required />
             </b-form-group>
             <b-form-group label="Email" label-for="email">
-                <b-form-input type="text" v-model="f.email" id="email" />
+                <b-form-input type="email" v-model="f.email" id="email" required />
             </b-form-group>
             <b-form-group label="Senha" label-for="password">
-                <b-form-input type="password" v-model="f.password" id="password" />
+                <b-form-input type="password" v-model="f.password" id="password" min="8" required />
             </b-form-group>
             <b-form-group label="Confirmação da senha" label-for="password_confirmation">
-                <b-form-input v-model="f.password_confirmation"
-                    type="password" id="password_confirmation" />
+                <b-form-input v-model="f.password_confirmation" type="password" id="password_confirmation" min="8" required />
             </b-form-group>
             <b-button block variant="success" type="submit">
                 REGISTRAR
