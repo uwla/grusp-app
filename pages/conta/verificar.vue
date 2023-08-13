@@ -2,15 +2,15 @@
     <main class="w500">
         <div v-if="verified">
            <h1>VERIFICAÇÃO CONCLUÍDA</h1>
-           <p>Sua conta foi verifica com sucesso.</p>
+           <p>Sua conta foi verificada com sucesso.</p>
            <p>Você pode fechar esta página agora.</p>
         </div>
         <div v-else>
             <h1>VERIFICAÇÃO FALHOU</h1>
             <p>Não foi possível verificar sua conta.</p>
             <p>
-                É possível que o link de verificação tenha expirado,
-                portanto solicite um novo link.
+                É possível que o link de verificação tenha expirado, portanto
+                <a href="/conta/link-verificacao">solicite um novo link.</a>
             </p>
         </div>
     </main>
