@@ -14,7 +14,7 @@
             </b-form-group>
         </form>
 
-        <b-modal ref="modal" hide-footer hide-header size="lg">
+        <b-modal ref="modal" hide-footer size="lg">
             <grupo-view :grupo="modalGrupo" />
         </b-modal>
 
