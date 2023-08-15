@@ -63,7 +63,10 @@
             </b-form-group>
 
             <b-form-group label="Categoria do grupo">
-                <multiselect v-bind="params" v-model="tags" />
+                <multiselect
+                    v-bind="mParams"
+                    v-model="tags"
+                    @search-change="searchTagsInFilter" />
             </b-form-group>
 
             <div class="form-buttons">
@@ -82,6 +85,8 @@ import { parseResponseErrors } from '../utils'
 
 export default {
     data() {
+        const params = this.$store.getters['grupo/multiselectParams']
+
         return {
             titulo: '',
             descricao: '',
@@ -104,15 +109,14 @@ export default {
                 dropareaMessage: 'Descarregue a imagem aqui',
                 selectButtonLabel: 'Selecionar imagem',
             },
+
+            // multiselect plugin
+            mParams: params,
+            mOptions: params.options,
         }
     },
 
     computed: {
-        // these are the parameters for vue multiselect
-        params() {
-            return this.$store.getters['grupo/multiselectParams']
-        },
-
         showErrors() {
             return this.errors.length > 0
         },
@@ -199,6 +203,36 @@ export default {
         hideSuccess() {
             this.showSuccess = false
         },
+
+        // this controls which tags are visible in the Tag filter
+        searchTagsInFilter(search, id) {
+            if (typeof search !== 'string' || search === '')
+                this.mParams.options = this.mOptions
+            else {
+                search = search.toLowerCase()
+                let options = [... this.mOptions]
+                let newOptions = []
+                for (let option of options)
+                {
+                    let label = option.label
+
+                    // push all options
+                    if (label.toLowerCase().includes(search))
+                    {
+                        newOptions.push(option)
+                        continue
+                    }
+
+                    // push just values which matched
+                    let values = option.values.filter(v => v.toLowerCase().includes(search))
+                    if (values.length > 0)
+                    {
+                        newOptions.push({ label, values })
+                    }
+                }
+                this.mParams.options = newOptions
+            }
+        }
     },
 
     props: {

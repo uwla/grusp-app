@@ -151,14 +151,14 @@ export default {
                     let label = option.label
 
                     // push all options
-                    if (label.includes(search))
+                    if (label.toLowerCase().includes(search))
                     {
                         newOptions.push(option)
                         continue
                     }
 
                     // push just values which matched
-                    let values = option.values.filter(v => v.includes(search))
+                    let values = option.values.filter(v => v.toLowerCase().includes(search))
                     if (values.length > 0)
                     {
                         newOptions.push({ label, values })
