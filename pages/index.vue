@@ -19,6 +19,11 @@
         </b-modal>
 
         <p>Mostrando {{ filteredGrupos.length }} de {{ grupos.length }} grupos</p>
+        <div id="grupo-perpage">
+            Mostrando
+            <b-select v-model="perPage" :options="[5,10,20]"></b-select>
+            grupos por vez
+        </div>
 
         <div v-if="loggedIn">
             <b-form-checkbox v-model="showBookmarkedOnly">
