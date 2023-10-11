@@ -43,7 +43,7 @@
                 <b-card-title
                     class="grupo-card-title"
                     :class="{ 'pr-4': loggedIn }">
-                    <b-link @click.prevent="viewgrupo(grupo)" :href="`/grupo/${grupo.id}`">
+                    <b-link @click.prevent="viewGrupo(grupo)" :href="`/grupo/${grupo.id}`">
                         {{ grupo.titulo }}
                     </b-link>
                     <b-link :href="`/grupo/${grupo.id}`">
