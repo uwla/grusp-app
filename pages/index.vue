@@ -18,14 +18,17 @@
             <grupo-view :grupo="modalGrupo" />
         </b-modal>
 
-        <p>Mostrando {{ filteredGrupos.length }} de {{ grupos.length }} grupos</p>
+        <div id="grupo-filterinfo">
+            Mostrando {{ filteredGrupos.length }} de {{ grupos.length }} grupos
+        </div>
+
         <div id="grupo-perpage">
             Mostrando
             <b-select v-model="perPage" :options="[5,10,20]"></b-select>
             grupos por vez
         </div>
 
-        <div v-if="loggedIn">
+        <div id="grupo-bookmarkfilter" v-if="loggedIn">
             <b-form-checkbox v-model="showBookmarkedOnly">
                 Mostrar apenas grupos favoritados.
             </b-form-checkbox>
@@ -56,9 +59,9 @@
         <b-pagination v-model="currentPage" v-if="!empty"
             :total-rows="filteredGrupos.length" :per-page="perPage" align="center"/>
 
-        <p class="mt-3 mb-3" v-if="empty">
+        <div id="grupo-emptymsg" v-if="empty">
             Nenhum grupo encontrado :'(
-        </p>
+        </div>
     </main>
 </template>
 <script>
@@ -202,9 +205,22 @@ export default {
     }
 }
 
-#main .pagination {
+#main .pagination
+{
     margin-top: 3em !important;
     margin-bottom: 3em !important;
+}
+
+#grupo-bookmarkfilter,
+#grupo-filterinfo,
+#grupo-emptymsg,
+#grupo-perpage{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#grupo-perpage select {
+    width: auto;
 }
 
 .grupo-card {
