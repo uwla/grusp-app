@@ -47,7 +47,7 @@
                         {{ grupo.titulo }}
                     </b-link>
                     <b-link :href="`/grupo/${grupo.id}`">
-                        <b-icon icon="box-arrow-up-right" />
+                        <small><b-icon icon="box-arrow-up-right" /></small>
                     </b-link>
                 </b-card-title>
                 <b-card-text>{{ grupo.descricao }}</b-card-text>
