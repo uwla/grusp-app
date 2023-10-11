@@ -40,11 +40,13 @@
         <div v-for="(grupo, i) in displayedGrupos" :key="i" class="grupo-card">
             <b-card :img-src="grupo.img || defaultImg" img-left>
                 <grupo-bookmark :grupoId="grupo.id" />
-                <b-card-title>
+                <b-card-title
+                    class="grupo-card-title"
+                    :class="{ 'pr-4': loggedIn }">
                     <b-link @click.prevent="viewgrupo(grupo)" :href="`/grupo/${grupo.id}`">
                         {{ grupo.titulo }}
                     </b-link>
-                    <b-link class="float-right" :href="`/grupo/${grupo.id}`">
+                    <b-link :href="`/grupo/${grupo.id}`">
                         <b-icon icon="box-arrow-up-right" />
                     </b-link>
                 </b-card-title>
@@ -230,6 +232,11 @@ export default {
 
 .grupo-card p {
     white-space: pre-wrap;
+}
+
+.grupo-card-title {
+    display: flex;
+    gap: .5em;
 }
 
 .card-img-left {
