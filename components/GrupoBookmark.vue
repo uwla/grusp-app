@@ -36,7 +36,14 @@ export default {
     padding: 10px;
     line-height: 1;
     cursor: pointer;
+    margin: 2px;
 }
+
+.grupo-bookmark:hover {
+    background-color: rgba(255, 165, 0, 0.4);
+    border-radius: .3em;
+}
+
 .bookmarked {
     color: orange
 }
