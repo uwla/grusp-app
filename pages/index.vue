@@ -34,15 +34,13 @@
             </b-form-checkbox>
         </div>
 
-        <b-pagination v-model="currentPage" v-if="!empty"
-            :total-rows="filteredGrupos.length" :per-page="perPage" align="center"/>
+        <b-pagination-nav v-model="currentPage" v-if="!empty"
+            :link-gen="linkGen" :number-of-pages="nPages" use-router align="center" />
 
         <div v-for="(grupo, i) in displayedGrupos" :key="i" class="grupo-card">
             <b-card :img-src="grupo.img || defaultImg" img-left>
                 <grupo-bookmark :grupoId="grupo.id" />
-                <b-card-title
-                    class="grupo-card-title"
-                    :class="{ 'pr-4': loggedIn }">
+                <b-card-title class="grupo-card-title" :class="{'pr-4': loggedIn}">
                     <b-link @click.prevent="viewGrupo(grupo)" :href="`/grupo/${grupo.id}`">
                         {{ grupo.titulo }}
                     </b-link>
@@ -58,8 +56,8 @@
             </b-card>
         </div>
 
-        <b-pagination v-model="currentPage" v-if="!empty"
-            :total-rows="filteredGrupos.length" :per-page="perPage" align="center"/>
+        <b-pagination-nav v-model="currentPage" v-if="!empty"
+            :link-gen="linkGen" :number-of-pages="nPages" use-router align="center" />
 
         <div id="grupo-emptymsg" v-if="empty">
             Nenhum grupo encontrado :'(
@@ -101,6 +99,9 @@ export default {
         filteredGrupos() {
             return this.filterByTags(this.filterBySearch(this.filterByBookmarks(this.grupos)))
         },
+        nPages() {
+            return Math.ceil(this.filteredGrupos.length / this.perPage)
+        },
         empty() {
             return this.filteredGrupos.length === 0
         },
@@ -138,6 +139,9 @@ export default {
                 const t = g.titulo.toLowerCase()
                 return t.includes(search) || d.includes(search) || this.searchTextInTags(search, g.tags)
             })
+        },
+        linkGen(pageNum) {
+            return pageNum === 1 ? '?' : `?page=${pageNum}`
         },
         viewGrupo(grupo) {
             this.modalGrupo = grupo
