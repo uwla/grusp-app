@@ -24,7 +24,11 @@
 
         <div id="grupo-perpage">
             Mostrando
-            <b-select v-model="perPage" :options="perPageValues"></b-select>
+            <b-form @submit.prevent="" class="d-inline">
+                <b-input name="page" v-model="currentPage" hidden />
+                <b-select name="perPage" v-model="perPage" :options="perPageValues" />
+                <b-button variant="primary" type="submit">OK</b-button>
+            </b-form>
             grupos por vez
         </div>
 
