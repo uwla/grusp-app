@@ -24,7 +24,7 @@
 
         <div id="grupo-perpage">
             Mostrando
-            <b-select v-model="perPage" :options="[5,10,20]"></b-select>
+            <b-select v-model="perPage" :options="perPageValues"></b-select>
             grupos por vez
         </div>
 
@@ -75,13 +75,25 @@ export default {
 
         const multiselectParams = store.getters['grupo/multiselectParams']
         const grupos = store.state.grupo.grupos
-        const perPage = 5
+        const perPageValues = [5, 10, 20]
+        let perPage = query.perPage
         let currentPage = query.page
 
+        // validate current page
         if (!Number(currentPage))
             currentPage = 1
+        else
+            currentPage = Number(currentPage)
         if (currentPage > Math.ceil(grupos.length/perPage))
             currentPage = 1
+
+        // validate per page
+        if (!Number(perPage))
+            perPage = 1
+        else
+            perPage = Number(perPage)
+        if (!perPageValues.includes(perPage))
+            perPage = perPageValues[0]
 
         return {
             selectedTags: [],
@@ -89,6 +101,7 @@ export default {
             modalGrupo: null,
             currentPage: currentPage,
             perPage: perPage,
+            perPageValues: perPageValues,
             defaultImg: '/vue-logo.png',
             showBookmarkedOnly: false,
 
@@ -149,7 +162,17 @@ export default {
             })
         },
         linkGen(pageNum) {
-            return pageNum === 1 ? '?' : `?page=${pageNum}`
+            let link = '?'
+
+            // query params
+            let params = []
+            if (pageNum !== 1)
+                params.push(`page=${pageNum}`)
+            if (this.perPage !== this.perPageValues[0])
+                params.push(`perPage=${this.perPage}`)
+
+            link += params.join('&')
+            return link
         },
         viewGrupo(grupo) {
             this.modalGrupo = grupo
