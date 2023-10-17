@@ -66,27 +66,35 @@
 </template>
 <script>
 export default {
-    async asyncData({ store }) {
+    async asyncData({ store, query }) {
         await store.dispatch('grupo/fetchGrupos')
         await store.dispatch('grupo/fetchTags')
         await store.dispatch('grupo/fetchUserVotes')
         await store.dispatch('grupo/fetchUserComments')
         await store.dispatch('grupo/fetchUserBookmarks')
 
-        const params = store.getters['grupo/multiselectParams']
+        const multiselectParams = store.getters['grupo/multiselectParams']
+        const grupos = store.state.grupo.grupos
+        const perPage = 5
+        let currentPage = query.page
+
+        if (!Number(currentPage))
+            currentPage = 1
+        if (currentPage > Math.ceil(grupos.length/perPage))
+            currentPage = 1
 
         return {
             selectedTags: [],
             search: '',
             modalGrupo: null,
-            currentPage: 1,
-            perPage: 5,
+            currentPage: currentPage,
+            perPage: perPage,
             defaultImg: '/vue-logo.png',
             showBookmarkedOnly: false,
 
             // multiselect plugin
-            mParams: params,
-            mOptions: params.options,
+            mParams: multiselectParams,
+            mOptions: multiselectParams.options,
         }
     },
     computed: {
