@@ -8,8 +8,10 @@
             <b-form-group label-for="pesquisa" label="Pesquisar">
                 <b-input-group>
                     <b-form-input name="pesquisa" v-model="search" />
-                    <template #append v-if="!jsEnabled">
+                    <template #append>
+                        <noscript>
                         <b-button type="submit" variant="primary">PESQUISAR</b-button>
+                        </noscript>
                     </template>
                 </b-input-group>
             </b-form-group>
@@ -35,8 +37,9 @@
             <div class="d-inline">
                 <b-select form="gform" name="perPage" :options="perPageValues"
                     v-model="perPage" />
-                <b-button form="gform" type="submit" variant="primary"
-                    v-show="!jsEnabled">OK</b-button>
+                <noscript>
+                <b-button form="gform" type="submit" variant="primary">OK</b-button>
+                </noscript>
             </div>
             grupos por vez
         </div>
@@ -118,7 +121,6 @@ export default {
             perPageValues: perPageValues,
             defaultImg: '/vue-logo.png',
             showBookmarkedOnly: false,
-            jsEnabled: false,
 
             // multiselect plugin
             mParams: multiselectParams,
@@ -234,9 +236,6 @@ export default {
                 this.mParams.options = newOptions
             }
         }
-    },
-    mounted() {
-        this.jsEnabled = true
     },
 }
 </script>
