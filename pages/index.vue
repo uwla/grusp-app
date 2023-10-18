@@ -2,10 +2,18 @@
     <main id="main">
         <h1>GRUSP</h1>
 
-        <form>
-            <b-form-group label="Pesquisar">
-                <b-form-input v-model="search" />
+        <form @submit.prevent="" id="gform">
+            <b-input form="gform" name="pagina" v-model="currentPage" hidden />
+
+            <b-form-group label-for="pesquisa" label="Pesquisar">
+                <b-input-group>
+                    <b-form-input name="pesquisa" v-model="search" />
+                    <template #append v-if="!jsEnabled">
+                        <b-button type="submit" variant="primary">PESQUISAR</b-button>
+                    </template>
+                </b-input-group>
             </b-form-group>
+
             <b-form-group label="Filtrar por tags">
                 <multiselect
                     v-bind="mParams"
@@ -24,11 +32,12 @@
 
         <div id="grupo-perpage">
             Mostrando
-            <b-form @submit.prevent="" class="d-inline">
-                <b-input name="page" v-model="currentPage" hidden />
-                <b-select name="perPage" v-model="perPage" :options="perPageValues" />
-                <b-button variant="primary" type="submit">OK</b-button>
-            </b-form>
+            <div class="d-inline">
+                <b-select form="gform" name="perPage" :options="perPageValues"
+                    v-model="perPage" />
+                <b-button form="gform" type="submit" variant="primary"
+                    v-show="!jsEnabled">OK</b-button>
+            </div>
             grupos por vez
         </div>
 
@@ -81,7 +90,8 @@ export default {
         const grupos = store.state.grupo.grupos
         const perPageValues = [5, 10, 20]
         let perPage = query.perPage
-        let currentPage = query.page
+        let currentPage = query.pagina
+        let search = query.pesquisa || ''
 
         // validate current page
         if (!Number(currentPage))
@@ -101,13 +111,14 @@ export default {
 
         return {
             selectedTags: [],
-            search: '',
+            search: search,
             modalGrupo: null,
             currentPage: currentPage,
             perPage: perPage,
             perPageValues: perPageValues,
             defaultImg: '/vue-logo.png',
             showBookmarkedOnly: false,
+            jsEnabled: false,
 
             // multiselect plugin
             mParams: multiselectParams,
@@ -171,9 +182,11 @@ export default {
             // query params
             let params = []
             if (pageNum !== 1)
-                params.push(`page=${pageNum}`)
+                params.push(`pagina=${pageNum}`)
             if (this.perPage !== this.perPageValues[0])
                 params.push(`perPage=${this.perPage}`)
+            if (this.search !== '')
+                params.push(`pesquisa=${this.search}`)
 
             link += params.join('&')
             return link
@@ -221,6 +234,9 @@ export default {
                 this.mParams.options = newOptions
             }
         }
+    },
+    mounted() {
+        this.jsEnabled = true
     },
 }
 </script>
