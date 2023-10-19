@@ -7,7 +7,7 @@
 
             <b-form-group label-for="pesquisa" label="Pesquisar">
                 <b-input-group>
-                    <b-form-input name="pesquisa" v-model="search" />
+                    <b-form-input id="pesquisa" name="pesquisa" v-model="search" />
                     <template #append>
                         <noscript>
                         <b-button type="submit" variant="primary">PESQUISAR</b-button>
