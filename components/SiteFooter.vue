@@ -3,6 +3,7 @@
         <a href="/">Grupos</a>
         <a href="/sobre">Sobre</a>
         <a href="/contato">Contato</a>
+        <a href="/faq">Faq</a>
     </footer>
 </template>
 <style>
