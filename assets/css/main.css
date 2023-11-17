@@ -80,3 +80,11 @@ ul {
 .form-group {
     margin-bottom: 1.3rem !important;
 }
+
+main .nojs {
+    display: none;
+}
+
+main.nojs .nojs {
+    display: inline;
+}

@@ -1,5 +1,5 @@
 <template>
-    <main id="main">
+    <main id="main" :class="{ 'nojs': !jsLoaded }">
         <h1>GRUSP</h1>
 
         <form @submit.prevent="" id="gform">
@@ -9,9 +9,7 @@
                 <b-input-group>
                     <b-form-input id="pesquisa" name="pesquisa" v-model="search" />
                     <template #append>
-                        <noscript>
-                        <b-button type="submit" variant="primary">PESQUISAR</b-button>
-                        </noscript>
+                        <b-button class="nojs" type="submit" variant="primary">PESQUISAR</b-button>
                     </template>
                 </b-input-group>
             </b-form-group>
@@ -37,9 +35,7 @@
             <div class="d-inline">
                 <b-select form="gform" name="perPage" :options="perPageValues"
                     v-model="perPage" />
-                <noscript>
-                <b-button form="gform" type="submit" variant="primary">OK</b-button>
-                </noscript>
+                <b-button class="nojs" form="gform" type="submit" variant="primary">OK</b-button>
             </div>
             grupos por vez
         </div>
@@ -125,6 +121,9 @@ export default {
             // multiselect plugin
             mParams: multiselectParams,
             mOptions: multiselectParams.options,
+
+            //
+            jsLoaded: false,
         }
     },
     computed: {
@@ -236,6 +235,9 @@ export default {
                 this.mParams.options = newOptions
             }
         }
+    },
+    mounted() {
+        this.jsLoaded = true
     },
 }
 </script>
