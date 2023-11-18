@@ -7,7 +7,8 @@
 
             <b-form-group label-for="pesquisa" label="Pesquisar">
                 <b-input-group>
-                    <b-form-input id="pesquisa" name="pesquisa" v-model="search" />
+                    <b-form-input id="pesquisa" name="pesquisa"
+                        :value="search" @input="updateSearch" />
                     <template #append>
                         <b-button class="nojs" type="submit" variant="primary">PESQUISAR</b-button>
                     </template>
@@ -34,7 +35,7 @@
             Mostrando
             <div class="d-inline">
                 <b-select form="gform" name="perPage" :options="perPageValues"
-                    v-model="perPage" />
+                    :value="perPage" @input="updatePerPage" />
                 <b-button class="nojs" form="gform" type="submit" variant="primary">OK</b-button>
             </div>
             grupos por vez
@@ -234,6 +235,27 @@ export default {
                 }
                 this.mParams.options = newOptions
             }
+        },
+        // update search text and url
+        updateSearch(val) {
+            this.search = val
+            this.currentPage = 1
+            this.updateUrl()
+        },
+        // update per page and url
+        updatePerPage(val) {
+            // compute new page for pagination
+            this.perPage = val
+            this.currentPage =1
+            this.updateUrl()
+        },
+        // force update url
+        updateUrl() {
+            history.pushState(
+                {},
+                null,
+                this.$route.path + this.linkGen(this.currentPage)
+            )
         }
     },
     mounted() {
