@@ -29,8 +29,8 @@
 
     <h2>Como registrar uma nova categoria/tag?</h2>
 
-    <p>Entre em contato conosco conforme descrito na <a href="/contato">página
-    de contato</a> e solicite a adição da tag/categoria.</p>
+    <p>Entre em contato conosco conforme descrito na <b-link href="/contato">
+    página de contato</b-link> e solicite a adição da tag/categoria.</p>
 
    </main>
 </template>
