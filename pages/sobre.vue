@@ -18,6 +18,9 @@
             estudantes acharem atividades que gostam ou explorar novas.
         </p>
         <p>
+            Para mais dúvidas, acesse o <b-link href="/faq">FAQ</b-link>.
+        </p>
+        <p>
             A ideia do website e seu desenvolvimento foram feitos por
             <b-link href="https://github.com/uwla">uwla</b-link>.
         </p>
