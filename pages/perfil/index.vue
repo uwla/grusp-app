@@ -1,13 +1,21 @@
 <template>
     <main class="w600">
         <h1>BEM VINDO</h1>
-        <div class="profile-info">
+        <div id="profile-info">
             <b>Nome</b>: {{ name }}<br />
             <b>Email</b>: {{ email }}<br />
         </div>
-        <b-button variant="primary" href="/perfil/editar">
-            EDITAR PERFIL
-        </b-button>
+        <div id="profile-buttons">
+            <b-button variant="primary" href="/perfil/editar">
+                EDITAR PERFIL
+            </b-button>
+            <b-button variant="info" href="/meus-grupos/">
+                MEUS GRUPOS
+            </b-button>
+            <b-button variant="success" href="/meus-grupos/criar">
+                CRIAR GRUPO
+            </b-button>
+        </div>
     </main>
 </template>
 <script>
@@ -24,7 +32,11 @@ export default {
 }
 </script>
 <style type="text/css">
-.profile-info {
+#profile-info {
     margin-bottom: 2rem;
+}
+#profile-buttons {
+    display: flex;
+    gap: 5px;
 }
 </style>
