@@ -20,12 +20,10 @@
 
     <h2>Como registrar um grupo?</h2>
 
-    <p>Entre em sua conta. Clique em <i>Conta</i>  no  canto  superior  direito.
-    Aparecerá um menu. Clique em <i>Meus  grupos</i>  e  será  guiado  para  seu
-    <i>dashboard</i> de grupos. Clique em <i>Criar grupo</i> e será guiado  para
-    o formulário. Preencha o formulário. Os únicos  campos  obrigatórios  são  o
-    nome, descrição e foto do grupo,  mas  é  recomendado  preencher  os  outros
-    campos também. Clique em <i>Enviar</i> e o grupo será criado.</p>
+    <p>Entre em sua conta. Clique no botão <i>Criar grupo</i> e será guiado para  o
+    formulário. Preencha o formulário. Os únicos campos obrigatórios  são  o  nome,
+    descrição e foto do grupo, mas é recomendado preencher os outros campos também.
+    Clique em <i>Enviar</i> e o grupo será criado.</p>
 
     <h2>Como registrar uma nova categoria/tag?</h2>
 
