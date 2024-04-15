@@ -4,7 +4,13 @@
     </main>
 </template>
 <script>
+import { defineHead } from '../../utils/'
+
 export default {
+    head() {
+        let grupoTitle = this.grupo ? this.grupo.titulo : "Não Encontrado"
+        return defineHead(`Grupo - ${grupoTitle}`, `Grupo ${grupoTitle}`)
+    },
     async asyncData({ $axios, params, store }) {
         // fetch user comments, so he can delete his own comments on the grupo
         await store.dispatch('grupo/fetchUserComments')
