@@ -16,7 +16,14 @@
     </main>
 </template>
 <script>
+import { defineHead } from '../../utils/'
+
 export default {
+    head: defineHead(
+        'GRUSP - Verificar conta',
+        'Confirme sua conta no GRUSP - Grupos USP',
+        'noindex, nofollow'
+    ),
     async asyncData({ route, $axios }) {
         // get the parameters for the request
         const { id, hash, signature, expires } = route.query

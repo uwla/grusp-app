@@ -8,6 +8,9 @@
 <script>
 export default {
     mounted() {
+        if (document.title !== 'GRUSP')
+            return;
+
         // Get the h1 tag
         var h1Element = document.querySelector('h1');
 

@@ -26,3 +26,12 @@
         </p>
     </main>
 </template>
+
+<script>
+import { defineHead } from '../utils'
+
+export default {
+    head: defineHead('GRUSP - Sobre', 'Sobre o GRUSP - catálogo de grupos da USP'),
+    name: 'PageAbout',
+}
+</script>

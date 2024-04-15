@@ -11,3 +11,12 @@
         </p>
     </main>
 </template>
+
+<script>
+import { defineHead } from '../utils'
+
+export default {
+    head: defineHead('GRUSP - Contato', 'Contato do GRUSP - catálogo de grupos da USP'),
+    name: 'PageContact',
+}
+</script>

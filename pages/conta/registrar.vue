@@ -28,9 +28,12 @@
     </main>
 </template>
 <script>
-import { parseResponseErrors } from '../../utils'
+import { parseResponseErrors, defineHead } from '../../utils'
 
 export default {
+    head: defineHead('GRUSP - Registrar',
+        'Registrar conta no GRUSP - Grupos USP',
+        'noindex, nofollow'),
     data() {
         const data = {
             f: {

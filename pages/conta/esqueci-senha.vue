@@ -24,11 +24,14 @@
     </main>
 </template>
 <script>
-import { parseResponseErrors } from '../../utils'
+import { parseResponseErrors, defineHead } from '../../utils'
 
 export default {
     middleware: 'auth',
     auth: 'guest',
+    head: defineHead('GRUSP - Esqueci senha',
+        'Solicite reset de senha esquecida no GRUSP - Grupos USP',
+        'noindex, nofollow'),
 
     data() {
         return {

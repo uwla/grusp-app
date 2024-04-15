@@ -30,11 +30,15 @@
     </main>
 </template>
 <script>
-import { parseResponseErrors } from '../../utils'
+import { parseResponseErrors, defineHead } from '../../utils'
 
 export default {
     middleware: 'auth',
     auth: 'guest',
+
+    head: defineHead('GRUSP - Login',
+        'Entrar na sua conta GRUSP - Grupos USP',
+        'noindex, nofollow'),
 
     computed: {
         showErrors() {

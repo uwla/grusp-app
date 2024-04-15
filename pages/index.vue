@@ -78,7 +78,10 @@
     </main>
 </template>
 <script>
+import { defineHead } from '../utils'
+
 export default {
+    head: defineHead('GRUSP', 'Catálogo de grupos da USP'),
     async asyncData({ store, query }) {
         await store.dispatch('grupo/fetchGrupos')
         await store.dispatch('grupo/fetchTags')

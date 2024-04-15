@@ -22,11 +22,14 @@
     </main>
 </template>
 <script>
-import { parseResponseErrors } from '../../utils'
+import { parseResponseErrors, defineHead } from '../../utils'
 
 export default {
     auth: 'guest',
     middleware: 'auth',
+    head: defineHead('GRUSP - Link de verificação',
+        'Link de verificação de conta GRUSP - Grupos USP',
+        'noindex, nofollow'),
     data() {
         return {
             data: {

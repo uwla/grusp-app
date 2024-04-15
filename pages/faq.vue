@@ -32,6 +32,17 @@
 
    </main>
 </template>
+
+<script>
+import { defineHead } from '../utils'
+
+export default {
+    head: defineHead('GRUSP - FAQ',
+        'Perguntas frequentes sobre o GRUSP - Grupos USP'),
+    name: 'PageFaq'
+}
+</script>
+
 <style>
 #faq {
     text-align: justify;

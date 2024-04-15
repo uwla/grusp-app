@@ -24,12 +24,14 @@
     </main>
 </template>
 <script>
-import { parseResponseErrors } from '../../utils'
+import { parseResponseErrors, defineHead } from '../../utils'
 
 export default {
     middleware: 'auth',
     auth: 'guest',
-
+    head: defineHead('GRUSP - Resetar',
+        'Resetar senha no GRUSP - Grupos USP',
+        'noindex, nofollow'),
     data() {
         const { token, email } = this.$route.query
         return {
